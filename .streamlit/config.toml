@@ -1,0 +1,8 @@
+# Tema visual del proyecto: paleta sobria, tonos oscuros con acento azul institucional.
+[theme]
+base = "dark"
+primaryColor = "#3E7CB1"
+backgroundColor = "#0F1620"
+secondaryBackgroundColor = "#1B2530"
+textColor = "#E4E8EE"
+font = "sans serif"

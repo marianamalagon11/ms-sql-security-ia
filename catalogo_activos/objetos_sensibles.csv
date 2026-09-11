@@ -1,0 +1,10 @@
+tabla,columna,nivel_sensibilidad,rol_autorizado
+Clientes,numero_documento,alto,DBA
+Clientes,nombre_completo,medio,DBA
+Empleados,salario,alto,RRHH
+Empleados,cuenta_bancaria,alto,RRHH
+Transacciones,monto,medio,Analista_Financiero
+Transacciones,tarjeta_credito,alto,DBA
+Usuarios,password_hash,alto,DBA
+Usuarios,email,medio,Soporte
+Auditoria,log_acceso,bajo,Analista_Seguridad

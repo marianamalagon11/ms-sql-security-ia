@@ -1,0 +1,6 @@
+streamlit>=1.32
+sqlglot
+scikit-learn
+pandas
+anthropic
+python-dotenv
