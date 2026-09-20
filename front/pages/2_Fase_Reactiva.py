@@ -11,18 +11,34 @@ ejemplo/mock para dejar el flujo navegable de punta a punta.
 import sys
 from pathlib import Path
 
+import altair as alt
 import pandas as pd
 import streamlit as st
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from fase_reactiva import explicador_llm, modelo_deteccion  # noqa: E402
+import common  # noqa: E402
 
-st.set_page_config(page_title="Fase Reactiva | Evaluación de Seguridad MS-SQL mediante IA", layout="wide")
+sys.path.insert(0, str(common.RAIZ))
 
-st.title("Fase Reactiva")
-st.caption("Sube un CSV de transacciones ya ejecutadas para detectar anomalías y generar un reporte.")
+common.encabezado(
+    "Fase Reactiva",
+    "Sube un CSV de transacciones ya ejecutadas para detectar anomalías y generar un reporte.",
+)
 st.divider()
+
+COLUMNAS_ESPERADAS = [
+    "timestamp",
+    "usuario",
+    "rol",
+    "ip_origen",
+    "ip_destino",
+    "aplicacion",
+    "tabla_afectada",
+    "columna_afectada",
+    "tipo_operacion",
+    "sentencia_sql",
+]
 
 TRANSACCIONES_MOCK = pd.DataFrame(
     [
@@ -55,6 +71,8 @@ TRANSACCIONES_MOCK = pd.DataFrame(
     ]
 )
 
+TOTAL_MOCK = 180
+
 REPORTE_MOCK = {
     "criticidad_resumida": "Se identificaron 2 transacciones de criticidad alta sobre un total de 180 analizadas (1.1%).",
     "anomalias_identificadas": [
@@ -67,6 +85,49 @@ REPORTE_MOCK = {
         "correspondiente. Se recomienda validar ambos casos con los usuarios involucrados y sus superiores."
     ),
 }
+
+def nivel_por_score(score: float) -> str:
+    """Traduce el score continuo del modelo a un nivel de riesgo discreto."""
+    if score >= 0.85:
+        return "critico"
+    if score >= 0.7:
+        return "alto"
+    if score >= 0.4:
+        return "medio"
+    return "bajo"
+
+def grafica_scores(df: pd.DataFrame) -> alt.Chart:
+    """Barras horizontales del score de anomalía, ordenadas de mayor a menor."""
+    datos = df.copy()
+    datos["etiqueta"] = datos["usuario"] + " · " + datos["tabla_afectada"] + "." + datos["columna_afectada"]
+    datos["score_texto"] = datos["score_anomalia"].map(lambda v: f"{v:.2f}")
+
+    base = alt.Chart(datos).encode(
+        y=alt.Y("etiqueta:N", sort="-x", title=None,
+                axis=alt.Axis(labelColor=common.TEXTO_SUAVE, labelFontSize=12, domain=False, ticks=False)),
+        x=alt.X("score_anomalia:Q", title="Score de anomalía",
+                scale=alt.Scale(domain=[0, 1]),
+                axis=alt.Axis(labelColor=common.TEXTO_SUAVE, titleColor=common.TEXTO_SUAVE,
+                              gridColor="rgba(228,232,238,0.10)", domainColor="rgba(228,232,238,0.20)",
+                              tickColor="rgba(228,232,238,0.20)")),
+        tooltip=[
+            alt.Tooltip("usuario:N", title="Usuario"),
+            alt.Tooltip("rol:N", title="Rol"),
+            alt.Tooltip("tabla_afectada:N", title="Tabla"),
+            alt.Tooltip("columna_afectada:N", title="Columna"),
+            alt.Tooltip("tipo_operacion:N", title="Operación"),
+            alt.Tooltip("score_anomalia:Q", title="Score", format=".2f"),
+        ],
+    )
+
+    barras = base.mark_bar(color=common.SERIES[0], height=18, cornerRadiusEnd=4)
+    etiquetas = base.mark_text(
+        align="left", dx=6, color=common.TEXTO, fontSize=12, fontWeight="bold"
+    ).encode(text="score_texto:N")
+
+    return (barras + etiquetas).properties(height=max(90, 46 * len(datos))).configure_view(
+        stroke=None
+    ).configure(background="transparent")
 
 col_upload, col_formato = st.columns([2, 1], gap="large")
 
@@ -82,44 +143,120 @@ with col_upload:
 with col_formato:
     with st.container(border=True):
         st.markdown("##### Formato esperado")
-        st.markdown("`usuario`, `ip_origen`, `ip_destino`, `aplicacion`, `sentencia_sql`, `timestamp`")
+        st.markdown(", ".join(f"`{c}`" for c in COLUMNAS_ESPERADAS))
 
 if generar:
     if archivo_csv is None:
         st.warning("Sube un archivo CSV antes de generar el reporte.")
     else:
-        df_transacciones = pd.read_csv(archivo_csv)
-
         try:
-            # TODO: una vez implementado el modelo real y persistido, cargarlo aquí
-            # en lugar de entrenar en cada request.
-            modelo = modelo_deteccion.entrenar_modelo(df_transacciones, catalogo_sensibles=None)
-            df_evaluado = modelo_deteccion.predecir_anomalias(modelo, df_transacciones, catalogo_sensibles=None)
-            df_sospechosas = df_evaluado[df_evaluado["es_anomalo_predicho"]]
-            reporte = explicador_llm.generar_reporte(df_sospechosas)
-        except (NotImplementedError, KeyError):
-            st.info("Lógica de detección/reporte aún no implementada — mostrando resultado de ejemplo (mock).")
-            df_sospechosas = TRANSACCIONES_MOCK
-            reporte = REPORTE_MOCK
+            df_transacciones = pd.read_csv(archivo_csv)
+        except Exception as exc:
+            st.error(f"No se pudo leer el CSV: {exc}")
+            st.stop()
 
-        st.divider()
+        faltantes = [c for c in COLUMNAS_ESPERADAS if c not in df_transacciones.columns]
 
+        from fase_reactiva import explicador_llm, modelo_deteccion
+
+        with st.spinner("Detectando anomalías y redactando el reporte…"):
+            try:
+                modelo = modelo_deteccion.entrenar_modelo(df_transacciones, catalogo_sensibles=None)
+                df_evaluado = modelo_deteccion.predecir_anomalias(
+                    modelo, df_transacciones, catalogo_sensibles=None
+                )
+                df_sospechosas = df_evaluado[df_evaluado["es_anomalo_predicho"]]
+                reporte = explicador_llm.generar_reporte(df_sospechosas)
+                total_analizadas = len(df_transacciones)
+                es_mock = False
+            except (NotImplementedError, KeyError):
+                df_sospechosas = TRANSACCIONES_MOCK
+                reporte = REPORTE_MOCK
+                total_analizadas = TOTAL_MOCK
+                es_mock = True
+
+        st.session_state["reactiva_sospechosas"] = df_sospechosas
+        st.session_state["reactiva_reporte"] = reporte
+        st.session_state["reactiva_total"] = total_analizadas
+        st.session_state["reactiva_es_mock"] = es_mock
+        st.session_state["reactiva_filas_csv"] = len(df_transacciones)
+        st.session_state["reactiva_faltantes"] = faltantes
+
+if "reactiva_reporte" in st.session_state:
+    df_sospechosas = st.session_state["reactiva_sospechosas"]
+    reporte = st.session_state["reactiva_reporte"]
+    total = st.session_state["reactiva_total"]
+    es_mock = st.session_state["reactiva_es_mock"]
+
+    st.divider()
+
+    fila_titulo, fila_aviso = st.columns([3, 1], vertical_alignment="center")
+    fila_titulo.markdown("### Resultado del análisis")
+    if es_mock:
+        fila_aviso.markdown(common.badge_mock(), unsafe_allow_html=True)
+
+    if es_mock:
+        st.caption(
+            f"La lógica de detección aún no está implementada. Tu archivo se leyó correctamente "
+            f"({st.session_state['reactiva_filas_csv']} filas), pero lo que ves abajo es un "
+            f"resultado de ejemplo fijo y no proviene de él."
+        )
+
+    if st.session_state.get("reactiva_faltantes"):
+        st.warning(
+            "Al CSV le faltan columnas que el modelo necesitará: "
+            + ", ".join(f"`{c}`" for c in st.session_state["reactiva_faltantes"])
+        )
+
+    sospechosas = len(df_sospechosas)
+    porcentaje = (sospechosas / total * 100) if total else 0.0
+
+    k1, k2, k3 = st.columns(3, gap="medium")
+    k1.metric("Transacciones analizadas", f"{total:,}".replace(",", "."))
+    k2.metric("Sospechosas", sospechosas)
+    k3.metric("Tasa de anomalía", f"{porcentaje:.1f}%")
+
+    st.markdown("")
+
+    col_grafica, col_niveles = st.columns([3, 1], gap="large")
+
+    with col_grafica:
         with st.container(border=True):
-            st.markdown("### Transacciones sospechosas")
-            st.caption(f"{len(df_sospechosas)} transacción(es) marcada(s) por el modelo de detección.")
-            st.dataframe(df_sospechosas, use_container_width=True)
+            st.markdown("##### Score de anomalía por transacción")
+            if "score_anomalia" in df_sospechosas.columns and not df_sospechosas.empty:
+                st.altair_chart(grafica_scores(df_sospechosas), width="stretch")
+            else:
+                st.caption("El modelo no devolvió scores para graficar.")
 
-        st.markdown("&nbsp;", unsafe_allow_html=True)
-
+    with col_niveles:
         with st.container(border=True):
-            st.markdown("### Reporte en lenguaje natural")
+            st.markdown("##### Nivel")
+            if "score_anomalia" in df_sospechosas.columns:
+                for _, fila in df_sospechosas.iterrows():
+                    st.markdown(
+                        common.badge_riesgo(nivel_por_score(fila["score_anomalia"])),
+                        unsafe_allow_html=True,
+                    )
+                    st.caption(f"{fila['usuario']} · {fila['tabla_afectada']}")
+            else:
+                st.caption("Sin score disponible.")
 
-            st.markdown("**Criticidad resumida**")
-            st.write(reporte.get("criticidad_resumida", "—"))
+    with st.container(border=True):
+        st.markdown("##### Transacciones sospechosas")
+        st.caption(f"{sospechosas} transacción(es) marcada(s) por el modelo de detección.")
+        st.dataframe(df_sospechosas, width="stretch", hide_index=True)
 
-            st.markdown("**Anomalías identificadas**")
-            for anomalia in reporte.get("anomalias_identificadas", []):
-                st.markdown(f"- {anomalia}")
+    with st.container(border=True):
+        st.markdown("##### Reporte en lenguaje natural")
 
-            st.markdown("**Explicación simplificada**")
-            st.write(reporte.get("explicacion_simplificada", "—"))
+        st.markdown("**Criticidad resumida**")
+        st.write(reporte.get("criticidad_resumida", "—"))
+
+        st.markdown("**Anomalías identificadas**")
+        for anomalia in reporte.get("anomalias_identificadas", []):
+            st.markdown(f"- {anomalia}")
+
+        st.markdown("**Explicación simplificada**")
+        st.write(reporte.get("explicacion_simplificada", "—"))
+
+common.pie()
