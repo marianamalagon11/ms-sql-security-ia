@@ -6,3 +6,13 @@ backgroundColor = "#0F1620"
 secondaryBackgroundColor = "#1B2530"
 textColor = "#E4E8EE"
 font = "sans serif"
+
+baseRadius = "medium"
+borderColor = "#2A3746"
+showWidgetBorder = true
+showSidebarBorder = true
+dataframeBorderColor = "#2A3746"
+dataframeHeaderBackgroundColor = "#1B2530"
+linkColor = "#7FB2DE"
+
+chartCategoricalColors = ["#3987e5", "#d95926", "#199e70", "#c98500"]

@@ -12,20 +12,20 @@ from pathlib import Path
 
 import streamlit as st
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from fase_proactiva import analizador_llm  # noqa: E402
+import common  # noqa: E402
 
-st.set_page_config(page_title="Fase Proactiva | Evaluación de Seguridad MS-SQL mediante IA", layout="wide")
+sys.path.insert(0, str(common.RAIZ))
 
-st.title("Fase Proactiva")
-st.caption("Analiza un script SQL antes de su ejecución e identifica riesgos de seguridad.")
+common.encabezado(
+    "Fase Proactiva",
+    "Analiza un script SQL antes de su ejecución e identifica riesgos de seguridad.",
+)
 st.divider()
 
-# TODO: reemplazar por el contexto real del usuario autenticado
 CONTEXTO_USUARIO_MOCK = {"usuario": "jperez", "rol": "Soporte"}
 
-# TODO: cargar el catálogo real desde catalogo_activos/objetos_sensibles.csv
 CATALOGO_MOCK = [
     {"tabla": "Clientes", "columna": "numero_documento", "nivel_sensibilidad": "alto", "rol_autorizado": "DBA"},
     {"tabla": "Usuarios", "columna": "password_hash", "nivel_sensibilidad": "alto", "rol_autorizado": "DBA"},
@@ -45,15 +45,6 @@ RESULTADO_MOCK = {
     ),
     "requiere_validacion_adicional": True,
 }
-
-# Paleta de riesgo: versiones atenuadas (no los rojo/naranja/verde saturados por defecto)
-# para mantener coherencia con el tema oscuro y sobrio de la app.
-RIESGO_ESTILO = {
-    "bajo": {"color": "#2F9E5B", "bg": "rgba(47, 158, 91, 0.14)", "label": "RIESGO BAJO"},
-    "medio": {"color": "#D6A419", "bg": "rgba(214, 164, 25, 0.14)", "label": "RIESGO MEDIO"},
-    "alto": {"color": "#C4453D", "bg": "rgba(196, 69, 61, 0.16)", "label": "RIESGO ALTO"},
-}
-ESTILO_DESCONOCIDO = {"color": "#8892A0", "bg": "rgba(136, 146, 160, 0.14)", "label": "RIESGO DESCONOCIDO"}
 
 col_input, col_contexto = st.columns([2, 1], gap="large")
 
@@ -78,46 +69,47 @@ if analizar:
     if not sentencia_sql.strip():
         st.warning("Pega una sentencia SQL antes de analizar.")
     else:
-        try:
-            # TODO: una vez implementada la lógica real, esta llamada reemplaza el mock.
-            resultado = analizador_llm.analizar_riesgo(
-                sentencia_sql, CONTEXTO_USUARIO_MOCK, CATALOGO_MOCK
-            )
-        except NotImplementedError:
-            st.info("Lógica de análisis aún no implementada — mostrando resultado de ejemplo (mock).")
-            resultado = RESULTADO_MOCK
+        from fase_proactiva import analizador_llm
 
-        nivel = resultado.get("nivel_riesgo", "desconocido")
-        estilo = RIESGO_ESTILO.get(nivel, ESTILO_DESCONOCIDO)
+        with st.spinner("Analizando la sentencia…"):
+            try:
+                resultado = analizador_llm.analizar_riesgo(
+                    sentencia_sql, CONTEXTO_USUARIO_MOCK, CATALOGO_MOCK
+                )
+                es_mock = False
+            except NotImplementedError:
+                resultado = RESULTADO_MOCK
+                es_mock = True
 
-        st.divider()
-        st.markdown("### Resultado del análisis")
+        st.session_state["proactiva_resultado"] = resultado
+        st.session_state["proactiva_es_mock"] = es_mock
 
-        with st.container(border=True):
-            st.markdown(
-                f"""
-                <div style="
-                    display:inline-block;
-                    padding: 0.3rem 0.9rem;
-                    border-radius: 6px;
-                    background-color: {estilo['bg']};
-                    color: {estilo['color']};
-                    font-weight: 700;
-                    letter-spacing: 0.04em;
-                    font-size: 0.85rem;
-                    margin-bottom: 0.75rem;
-                ">
-                    {estilo['label']}
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
+if "proactiva_resultado" in st.session_state:
+    resultado = st.session_state["proactiva_resultado"]
+    nivel = str(resultado.get("nivel_riesgo", "medio"))
 
-            st.markdown("**Explicación**")
-            st.write(resultado.get("explicacion", "—"))
+    st.divider()
+    fila_titulo, fila_aviso = st.columns([3, 1], vertical_alignment="center")
+    fila_titulo.markdown("### Resultado del análisis")
+    if st.session_state.get("proactiva_es_mock"):
+        fila_aviso.markdown(common.badge_mock(), unsafe_allow_html=True)
 
-            st.markdown("**Sugerencia de mitigación**")
-            st.write(resultado.get("sugerencia_mitigacion", "—"))
+    if st.session_state.get("proactiva_es_mock"):
+        st.caption(
+            "La lógica de análisis aún no está implementada, así que este veredicto es "
+            "un ejemplo fijo y no depende de la sentencia que pegaste."
+        )
 
-            if resultado.get("requiere_validacion_adicional"):
-                st.warning("Esta sentencia requiere validación adicional antes de ejecutarse en producción.")
+    with st.container(border=True):
+        st.markdown(common.badge_riesgo(nivel), unsafe_allow_html=True)
+
+        st.markdown("**Explicación**")
+        st.write(resultado.get("explicacion", "—"))
+
+        st.markdown("**Sugerencia de mitigación**")
+        st.write(resultado.get("sugerencia_mitigacion", "—"))
+
+        if resultado.get("requiere_validacion_adicional"):
+            st.warning("Esta sentencia requiere validación adicional antes de ejecutarse en producción.")
+
+common.pie()
