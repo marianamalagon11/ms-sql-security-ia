@@ -2,9 +2,15 @@
 Contenido de la página de inicio.
 """
 
+import sys
+
 import streamlit as st
 
 import common
+
+sys.path.insert(0, str(common.RAIZ))
+
+import catalogo_activos  # noqa: E402
 
 common.encabezado(
     "Evaluación de Seguridad en sentencias MS-SQL mediante IA",
@@ -23,7 +29,11 @@ st.divider()
 
 col_a, col_b, col_c = st.columns(3, gap="medium")
 col_a.metric("Fases del sistema", "2", help="Proactiva (pre-ejecución) y reactiva (post-ejecución)")
-col_b.metric("Objetos sensibles en catálogo", "9", help="catalogo_activos/objetos_sensibles.csv")
+col_b.metric(
+    "Objetos sensibles en catálogo",
+    str(len(catalogo_activos.cargar_objetos_sensibles())),
+    help="catalogo_activos/objetos_sensibles.csv",
+)
 col_c.metric("Estado", "Prototipo", help="La lógica de análisis está en desarrollo")
 
 st.divider()

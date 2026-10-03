@@ -1,0 +1,8 @@
+categoria_operacion,ninguno,bajo,medio,alto
+CONTROL,bajo,bajo,bajo,bajo
+LECTURA,bajo,bajo,bajo,medio
+ESCRITURA,bajo,bajo,bajo,medio
+ELIMINACION,medio,medio,alto,alto
+EJECUCION,medio,medio,alto,alto
+DDL,medio,alto,alto,critico
+PRIVILEGIOS,alto,alto,alto,critico

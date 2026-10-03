@@ -8,10 +8,15 @@ del usuario está autorizado para la tabla/columna afectada (según el
 catálogo de objetos sensibles), tipo de operación, etc.
 """
 
+import os
+
+import joblib
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+
+RUTA_MODELO = os.path.join(os.path.dirname(__file__), "datos", "modelo_deteccion.joblib")
 
 
 def construir_features(df_transacciones: pd.DataFrame, catalogo_sensibles: pd.DataFrame) -> pd.DataFrame:
@@ -60,6 +65,19 @@ def entrenar_modelo(df_transacciones: pd.DataFrame, catalogo_sensibles: pd.DataF
     raise NotImplementedError("TODO: implementar entrenamiento del modelo")
 
 
+def cargar_modelo(ruta: str = RUTA_MODELO):
+    """
+    Carga el modelo persistido por entrenar_modelo.
+
+    Raises:
+        FileNotFoundError: si todavía no se ha entrenado el modelo
+            (python fase_reactiva/modelo_deteccion.py).
+    """
+    if not os.path.exists(ruta):
+        raise FileNotFoundError(f"No hay modelo entrenado en {ruta}")
+    return joblib.load(ruta)
+
+
 def predecir_anomalias(modelo: LogisticRegression, df_transacciones: pd.DataFrame, catalogo_sensibles: pd.DataFrame) -> pd.DataFrame:
     """
     Aplica el modelo entrenado sobre un nuevo batch de transacciones
@@ -82,7 +100,7 @@ def predecir_anomalias(modelo: LogisticRegression, df_transacciones: pd.DataFram
 
 
 if __name__ == "__main__":
-    # TODO: cargar fase_reactiva/datos/transacciones_sinteticas.csv y
-    # catalogo_activos/objetos_sensibles.csv, entrenar el modelo y
-    # opcionalmente persistirlo.
+    # TODO: cargar fase_reactiva/datos/transacciones_sinteticas.csv (generado con
+    # generar_dataset.py; ignorar tipo_anomalia como feature) y el catálogo,
+    # entrenar el modelo y persistirlo en RUTA_MODELO con joblib.dump.
     raise NotImplementedError("TODO: implementar script de entrenamiento end-to-end")

@@ -21,6 +21,8 @@ import common  # noqa: E402
 
 sys.path.insert(0, str(common.RAIZ))
 
+import catalogo_activos  # noqa: E402
+
 common.encabezado(
     "Fase Reactiva",
     "Sube un CSV de transacciones ya ejecutadas para detectar anomalías y generar un reporte.",
@@ -159,17 +161,19 @@ if generar:
 
         from fase_reactiva import explicador_llm, modelo_deteccion
 
+        catalogo = pd.DataFrame(catalogo_activos.cargar_objetos_sensibles())
+
         with st.spinner("Detectando anomalías y redactando el reporte…"):
             try:
-                modelo = modelo_deteccion.entrenar_modelo(df_transacciones, catalogo_sensibles=None)
-                df_evaluado = modelo_deteccion.predecir_anomalias(
-                    modelo, df_transacciones, catalogo_sensibles=None
-                )
+                # El modelo se entrena offline con el dataset sintético etiquetado;
+                # el CSV subido no trae la etiqueta es_anomalo, solo se evalúa.
+                modelo = modelo_deteccion.cargar_modelo()
+                df_evaluado = modelo_deteccion.predecir_anomalias(modelo, df_transacciones, catalogo)
                 df_sospechosas = df_evaluado[df_evaluado["es_anomalo_predicho"]]
                 reporte = explicador_llm.generar_reporte(df_sospechosas)
                 total_analizadas = len(df_transacciones)
                 es_mock = False
-            except (NotImplementedError, KeyError):
+            except (NotImplementedError, FileNotFoundError, KeyError):
                 df_sospechosas = TRANSACCIONES_MOCK
                 reporte = REPORTE_MOCK
                 total_analizadas = TOTAL_MOCK
