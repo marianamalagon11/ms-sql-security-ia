@@ -3,9 +3,10 @@ Página Streamlit: Fase Reactiva.
 
 Permite subir un CSV de transacciones ya ejecutadas, dispararlo contra
 fase_reactiva.modelo_deteccion + fase_reactiva.explicador_llm, y mostrar las
-transacciones sospechosas junto con el reporte en lenguaje natural. Mientras
-la lógica real (modelo + LLM) no esté implementada, se muestran datos de
-ejemplo/mock para dejar el flujo navegable de punta a punta.
+transacciones sospechosas junto con el reporte en lenguaje natural (por
+plantillas). Si el modelo todavía no se entrenó (python
+fase_reactiva/modelo_deteccion.py) se muestra un resultado de ejemplo para
+dejar el flujo navegable de punta a punta.
 """
 
 import sys
@@ -20,8 +21,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import common  # noqa: E402
 
 sys.path.insert(0, str(common.RAIZ))
-
-import catalogo_activos  # noqa: E402
 
 common.encabezado(
     "Fase Reactiva",
@@ -40,6 +39,7 @@ COLUMNAS_ESPERADAS = [
     "columna_afectada",
     "tipo_operacion",
     "sentencia_sql",
+    "filas_afectadas",
 ]
 
 TRANSACCIONES_MOCK = pd.DataFrame(
@@ -55,7 +55,7 @@ TRANSACCIONES_MOCK = pd.DataFrame(
             "columna_afectada": "salario",
             "tipo_operacion": "SELECT",
             "sentencia_sql": "SELECT salario FROM Empleados;",
-            "score_anomalia": 0.92,
+            "probabilidad_anomalia": 0.92,
         },
         {
             "timestamp": "2026-08-20T23:47:10",
@@ -68,7 +68,7 @@ TRANSACCIONES_MOCK = pd.DataFrame(
             "columna_afectada": "password_hash",
             "tipo_operacion": "UPDATE",
             "sentencia_sql": "UPDATE Usuarios SET password_hash = ? WHERE id_usuarios = ?;",
-            "score_anomalia": 0.87,
+            "probabilidad_anomalia": 0.87,
         },
     ]
 )
@@ -88,26 +88,26 @@ REPORTE_MOCK = {
     ),
 }
 
-def nivel_por_score(score: float) -> str:
-    """Traduce el score continuo del modelo a un nivel de riesgo discreto."""
-    if score >= 0.85:
+def nivel_por_score(probabilidad: float) -> str:
+    """Traduce la probabilidad de anomalía del modelo a un nivel de riesgo discreto."""
+    if probabilidad >= 0.85:
         return "critico"
-    if score >= 0.7:
+    if probabilidad >= 0.7:
         return "alto"
-    if score >= 0.4:
+    if probabilidad >= 0.4:
         return "medio"
     return "bajo"
 
 def grafica_scores(df: pd.DataFrame) -> alt.Chart:
-    """Barras horizontales del score de anomalía, ordenadas de mayor a menor."""
+    """Barras horizontales de la probabilidad de anomalía, ordenadas de mayor a menor."""
     datos = df.copy()
     datos["etiqueta"] = datos["usuario"] + " · " + datos["tabla_afectada"] + "." + datos["columna_afectada"]
-    datos["score_texto"] = datos["score_anomalia"].map(lambda v: f"{v:.2f}")
+    datos["score_texto"] = datos["probabilidad_anomalia"].map(lambda v: f"{v:.2f}")
 
     base = alt.Chart(datos).encode(
         y=alt.Y("etiqueta:N", sort="-x", title=None,
                 axis=alt.Axis(labelColor=common.TEXTO_SUAVE, labelFontSize=12, domain=False, ticks=False)),
-        x=alt.X("score_anomalia:Q", title="Score de anomalía",
+        x=alt.X("probabilidad_anomalia:Q", title="Probabilidad de anomalía",
                 scale=alt.Scale(domain=[0, 1]),
                 axis=alt.Axis(labelColor=common.TEXTO_SUAVE, titleColor=common.TEXTO_SUAVE,
                               gridColor="rgba(228,232,238,0.10)", domainColor="rgba(228,232,238,0.20)",
@@ -118,7 +118,7 @@ def grafica_scores(df: pd.DataFrame) -> alt.Chart:
             alt.Tooltip("tabla_afectada:N", title="Tabla"),
             alt.Tooltip("columna_afectada:N", title="Columna"),
             alt.Tooltip("tipo_operacion:N", title="Operación"),
-            alt.Tooltip("score_anomalia:Q", title="Score", format=".2f"),
+            alt.Tooltip("probabilidad_anomalia:Q", title="Probabilidad", format=".2f"),
         ],
     )
 
@@ -161,23 +161,28 @@ if generar:
 
         from fase_reactiva import explicador_llm, modelo_deteccion
 
-        catalogo = pd.DataFrame(catalogo_activos.cargar_objetos_sensibles())
-
         with st.spinner("Detectando anomalías y redactando el reporte…"):
-            try:
-                # El modelo se entrena offline con el dataset sintético etiquetado;
-                # el CSV subido no trae la etiqueta es_anomalo, solo se evalúa.
-                modelo = modelo_deteccion.cargar_modelo()
-                df_evaluado = modelo_deteccion.predecir_anomalias(modelo, df_transacciones, catalogo)
-                df_sospechosas = df_evaluado[df_evaluado["es_anomalo_predicho"]]
-                reporte = explicador_llm.generar_reporte(df_sospechosas)
-                total_analizadas = len(df_transacciones)
-                es_mock = False
-            except (NotImplementedError, FileNotFoundError, KeyError):
+            # El modelo se entrena offline con el dataset sintético etiquetado
+            # (python fase_reactiva/modelo_deteccion.py); el CSV subido no trae
+            # la etiqueta es_anomalo, solo se evalúa con él.
+            modelo = modelo_deteccion.cargar_modelo()
+            if modelo is None:
                 df_sospechosas = TRANSACCIONES_MOCK
                 reporte = REPORTE_MOCK
                 total_analizadas = TOTAL_MOCK
                 es_mock = True
+            else:
+                try:
+                    df_evaluado = modelo_deteccion.predecir(modelo, df_transacciones)
+                    df_sospechosas = df_evaluado[df_evaluado["es_anomalo_predicho"]]
+                    reporte = explicador_llm.generar_reporte(df_sospechosas)
+                    total_analizadas = len(df_transacciones)
+                    es_mock = False
+                except KeyError:
+                    df_sospechosas = TRANSACCIONES_MOCK
+                    reporte = REPORTE_MOCK
+                    total_analizadas = TOTAL_MOCK
+                    es_mock = True
 
         st.session_state["reactiva_sospechosas"] = df_sospechosas
         st.session_state["reactiva_reporte"] = reporte
@@ -201,9 +206,9 @@ if "reactiva_reporte" in st.session_state:
 
     if es_mock:
         st.caption(
-            f"La lógica de detección aún no está implementada. Tu archivo se leyó correctamente "
-            f"({st.session_state['reactiva_filas_csv']} filas), pero lo que ves abajo es un "
-            f"resultado de ejemplo fijo y no proviene de él."
+            f"El modelo de detección todavía no se ha entrenado (python fase_reactiva/modelo_deteccion.py). "
+            f"Tu archivo se leyó correctamente ({st.session_state['reactiva_filas_csv']} filas), pero lo que "
+            f"ves abajo es un resultado de ejemplo fijo y no proviene de él."
         )
 
     if st.session_state.get("reactiva_faltantes"):
@@ -226,24 +231,24 @@ if "reactiva_reporte" in st.session_state:
 
     with col_grafica:
         with st.container(border=True):
-            st.markdown("##### Score de anomalía por transacción")
-            if "score_anomalia" in df_sospechosas.columns and not df_sospechosas.empty:
+            st.markdown("##### Probabilidad de anomalía por transacción")
+            if "probabilidad_anomalia" in df_sospechosas.columns and not df_sospechosas.empty:
                 st.altair_chart(grafica_scores(df_sospechosas), width="stretch")
             else:
-                st.caption("El modelo no devolvió scores para graficar.")
+                st.caption("El modelo no devolvió probabilidades para graficar.")
 
     with col_niveles:
         with st.container(border=True):
             st.markdown("##### Nivel")
-            if "score_anomalia" in df_sospechosas.columns:
+            if "probabilidad_anomalia" in df_sospechosas.columns:
                 for _, fila in df_sospechosas.iterrows():
                     st.markdown(
-                        common.badge_riesgo(nivel_por_score(fila["score_anomalia"])),
+                        common.badge_riesgo(nivel_por_score(fila["probabilidad_anomalia"])),
                         unsafe_allow_html=True,
                     )
                     st.caption(f"{fila['usuario']} · {fila['tabla_afectada']}")
             else:
-                st.caption("Sin score disponible.")
+                st.caption("Sin probabilidad disponible.")
 
     with st.container(border=True):
         st.markdown("##### Transacciones sospechosas")

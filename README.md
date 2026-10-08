@@ -2,8 +2,10 @@
 
 Sistema de evaluación de seguridad en ejecuciones MS-SQL mediante IA, con dos fases complementarias:
 
-1. **Fase proactiva**: analiza un script SQL *antes* de ejecutarse. Parsea cada sentencia con `sqlglot`, la contrasta contra el catálogo de objetos sensibles y el rol del usuario, y un motor de reglas determinista (matriz de riesgo + hallazgos) calcula el nivel de riesgo y el escalamiento. El LLM (Claude) solo redacta la explicación y la mitigación; mientras no haya API key se usa una explicación por plantillas.
-2. **Fase reactiva**: analiza en lote transacciones *ya ejecutadas* (CSV con usuario, IPs, aplicación, sentencia y timestamp). Un modelo de clasificación (regresión logística, scikit-learn) detecta anomalías y un LLM traduce los resultados a un reporte en lenguaje natural.
+1. **Fase proactiva**: analiza un script SQL *antes* de ejecutarse. Parsea cada sentencia con `sqlglot`, la contrasta contra el catálogo de objetos sensibles y el rol del usuario, y un motor de reglas determinista (matriz de riesgo + hallazgos) calcula el nivel de riesgo y el escalamiento. La explicación y la mitigación en lenguaje natural se redactan con plantillas a partir de esa evaluación.
+2. **Fase reactiva**: analiza en lote transacciones *ya ejecutadas* (CSV con usuario, IPs, aplicación, sentencia y timestamp). Un modelo de clasificación (regresión logística, scikit-learn) entrenado sobre el dataset sintético detecta anomalías, y un reporte por plantillas traduce los resultados a lenguaje natural.
+
+> El análisis en ambas fases se resuelve con reglas de negocio deterministas y plantillas, sin depender de una API externa — es una decisión de alcance del proyecto, no una funcionalidad pendiente. El diseño queda abierto a integrar un LLM a futuro (ver `construir_prompt` en `fase_proactiva/analizador_llm.py` y `construir_prompt_reporte` en `fase_reactiva/explicador_llm.py`).
 
 Ambas fases comparten el catálogo de `catalogo_activos/`:
 
@@ -57,12 +59,6 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Copia `.env.example` a `.env` y agrega tu API key de Anthropic:
-
-```bash
-cp .env.example .env
-```
-
 ## Datos sintéticos (fase reactiva)
 
 ```bash
@@ -74,6 +70,14 @@ Genera en `fase_reactiva/datos/`:
 
 - `transacciones_sinteticas.csv`: dataset etiquetado (`es_anomalo`, `tipo_anomalia`) para entrenar. `tipo_anomalia` es solo ground truth; no debe usarse como feature.
 - `transacciones_demo.csv`: lote sin etiquetas con otra semilla, para subir en la página de Fase Reactiva.
+
+## Modelo de detección de anomalías (fase reactiva)
+
+```bash
+python fase_reactiva/modelo_deteccion.py
+```
+
+Entrena una regresión logística (`scikit-learn`, `class_weight="balanced"`) sobre `transacciones_sinteticas.csv` y guarda el pipeline completo (preprocesamiento + modelo) en `fase_reactiva/datos/modelo_deteccion.joblib`. Imprime en consola el reporte de clasificación (precisión, recall, F1) y la matriz de confusión sobre un split de prueba del 20%. Mientras este archivo no exista, la página de Fase Reactiva muestra un resultado de ejemplo.
 
 ## Cómo correr el front
 
@@ -104,8 +108,8 @@ El estado del arte, la justificación del proyecto y el diagrama de arquitectura
 - [x] Parser T-SQL (`fase_proactiva/parser_sql.py`)
 - [x] Motor de reglas, matriz de riesgo y matriz de escalamiento (`fase_proactiva/motor_reglas.py`)
 - [x] Generador de dataset sintético (`fase_reactiva/generar_dataset.py`)
-- [ ] Integración con el LLM (explicación de la fase proactiva y reporte de la reactiva)
-- [ ] Modelo de detección de anomalías (`fase_reactiva/modelo_deteccion.py`)
+- [x] Modelo de detección de anomalías (`fase_reactiva/modelo_deteccion.py`)
+- [x] Explicación en lenguaje natural (plantillas) en ambas fases — sin dependencia de API externa, por decisión de alcance del proyecto.
 
 ## Bitácora de avances
 
@@ -152,5 +156,26 @@ El estado del arte, la justificación del proyecto y el diagrama de arquitectura
 
 **Pendiente**
 
-- Integrar el LLM (requiere API key de Anthropic) para la explicación de la fase proactiva y el reporte de la reactiva.
-- Implementar y entrenar el modelo de detección de anomalías.
+- Ninguno para el alcance actual. La integración de un LLM para redactar las explicaciones (en lugar de las plantillas) queda como extensión futura fuera de alcance.
+
+### Adelanto — 7 de octubre de 2026
+
+**Decisión de alcance: explicación por plantillas, sin LLM externo**
+
+- La explicación de la fase proactiva (ya resuelta por `motor_reglas.explicar_evaluacion`) y el nuevo reporte de la fase reactiva (`fase_reactiva/explicador_llm.generar_reporte`) se dejan como la implementación final de esta entrega: reglas de negocio deterministas + plantillas, sin llamar a una API externa.
+- Se retiraron `anthropic` y `python-dotenv` de `requirements.txt` (no se usaban en ningún import) y el código muerto relacionado (`ANTHROPIC_API_KEY = os.getenv(...)`) de `analizador_llm.py`. Los hooks de extensión (`construir_prompt`, `construir_prompt_reporte`) se conservan documentados para una futura integración de LLM, fuera del alcance actual.
+
+**Fase reactiva: modelo de detección de anomalías** (`fase_reactiva/modelo_deteccion.py`)
+
+- `construir_features` deriva, por transacción: hora del día y día de la semana, si cae fuera del horario habitual del usuario, si la aplicación es la habitual, si la IP de origen es externa, la sensibilidad del objeto tocado y si el rol está autorizado sobre él (cruce contra `catalogo_activos`), y `filas_afectadas` en escala logarítmica; además de las categóricas tipo de operación, tabla, aplicación y rol. `tipo_anomalia` nunca se usa como feature.
+- `entrenar_modelo` arma un `Pipeline` de scikit-learn (`OneHotEncoder` + `StandardScaler` + `LogisticRegression` con `class_weight="balanced"`), evalúa con un split 80/20 estratificado por `es_anomalo` e imprime precisión/recall/F1 y la matriz de confusión. El pipeline completo se persiste con `joblib` en `fase_reactiva/datos/modelo_deteccion.joblib`.
+- `cargar_modelo` retorna `None` si el modelo no se ha entrenado (en vez de lanzar una excepción), y `predecir` aplica el mismo preprocesamiento a transacciones nuevas y agrega `es_anomalo_predicho` y `probabilidad_anomalia`.
+- Con el dataset de 5000 filas (`--semilla` por defecto) el modelo da precisión, recall y F1 de 1.000 tanto en el split de prueba (1000 filas) como en un lote de 3000 filas generado con una semilla completamente distinta (777), sin falsos positivos ni falsos negativos. **Por qué es perfecto y no una señal de fuga de datos:** cada patrón de anomalía en `generar_dataset.py` se genera a partir de una regla de negocio exacta (rol no autorizado sobre la tabla/columna, hora fuera del horario del perfil, IP fuera de los rangos internos/VPN, operación que ningún rol tiene habitual, volumen de filas muy por fuera del rango normal), y `construir_features` deriva esas mismas señales de negocio. El dataset es, por diseño, linealmente separable con esas features. Con datos reales (con ruido, perfiles desactualizados y comportamiento humano menos consistente) es esperable que las métricas bajen; el valor de esta prueba es confirmar que el pipeline de features captura las señales correctas, no que el modelo sea infalible.
+
+**Front (Streamlit)**
+
+- Fase reactiva: ahora llama a `modelo_deteccion.predecir` (ya no al antiguo `predecir_anomalias`) y usa `probabilidad_anomalia` en vez de `score_anomalia` en la tabla, el gráfico y los badges de nivel. Si `cargar_modelo()` devuelve `None`, se muestra el resultado de ejemplo sin pasar por manejo de excepciones.
+
+**Pruebas**
+
+- Nuevas pruebas en `tests/test_modelo_deteccion.py`: el modelo se entrena y persiste sin error, `predecir` devuelve las columnas esperadas con valores en rango, y `cargar_modelo` retorna `None` cuando el archivo no existe.

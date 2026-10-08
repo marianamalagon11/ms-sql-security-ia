@@ -1,29 +1,30 @@
 """
-Análisis de riesgo pre-ejecución vía LLM (Claude).
+Análisis de riesgo pre-ejecución de la fase proactiva.
 
 Combina la sentencia SQL parseada (fase_proactiva.parser_sql) con el
 contexto de negocio (rol del usuario, catálogo de objetos sensibles) para
 producir un veredicto de riesgo explicado en lenguaje natural.
 
 El nivel de riesgo y el escalamiento los calcula el motor de reglas
-(fase_proactiva.motor_reglas); el LLM solo redacta la explicación y la
-mitigación. Mientras no haya API key configurada se usa la explicación por
-plantillas del motor.
+(fase_proactiva.motor_reglas), de forma determinista y auditable; la
+explicación y la mitigación se redactan con plantillas
+(motor_reglas.explicar_evaluacion). Las plantillas son la implementación
+final de esta entrega, no un placeholder: el proyecto se delimitó a un
+análisis semántico basado en reglas, sin depender de una API externa.
+
+El diseño queda abierto a reemplazar la redacción por un LLM en el futuro
+(ver construir_prompt), pero eso no es parte del alcance actual.
 """
 
-import os
-
 from fase_proactiva import motor_reglas
-
-# TODO: cargar la API key desde variable de entorno ANTHROPIC_API_KEY
-# (ver .env.example) usando python-dotenv + os.getenv("ANTHROPIC_API_KEY").
-# No hardcodear la API key en el código.
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 
 
 def construir_prompt(sentencia_parseada: dict, contexto_usuario: dict, catalogo_sensibles: list[dict]) -> str:
     """
-    Construye el prompt que se enviará al LLM para evaluar el riesgo de la sentencia.
+    Extensión futura (fuera del alcance actual): arma el prompt para que un
+    LLM redacte la explicación y la mitigación en lugar de las plantillas de
+    motor_reglas.explicar_evaluacion, sin cambiar el nivel de riesgo que
+    calcula el motor de reglas.
 
     Args:
         sentencia_parseada: dict devuelto por parser_sql.parsear_sentencia
@@ -34,14 +35,9 @@ def construir_prompt(sentencia_parseada: dict, contexto_usuario: dict, catalogo_
             (tabla, columna, nivel_sensibilidad, rol_autorizado).
 
     Returns:
-        str con el prompt final a enviar al LLM.
-
-    TODO: Diseñar el prompt para que el LLM devuelva una respuesta estructurada
-    (ej. JSON) con explicacion y sugerencia_mitigacion. El prompt debe incluir
-    la evaluación del motor de reglas (nivel, hallazgos, objetos sensibles,
-    escalamiento) para que el LLM la explique sin cambiar el nivel.
+        str con el prompt a enviar al LLM.
     """
-    raise NotImplementedError("TODO: construir el prompt para el LLM")
+    raise NotImplementedError("Extensión futura: no es parte del alcance actual del proyecto")
 
 
 def analizar_riesgo(sentencia_sql: str, contexto_usuario: dict, catalogo_sensibles: list[dict]) -> dict:
@@ -62,11 +58,8 @@ def analizar_riesgo(sentencia_sql: str, contexto_usuario: dict, catalogo_sensibl
             - requiere_validacion_adicional: bool
             - escalamiento: dict de la matriz de escalamiento
             - evaluacion: dict completo del motor (detalle por sentencia)
-            - fuente_explicacion: "plantilla" o "llm"
-
-    TODO: cuando haya API key, llamar a construir_prompt(...) e invocar el
-    cliente de Anthropic para reemplazar la explicación por plantilla; si la
-    llamada falla, conservar la de plantilla.
+            - fuente_explicacion: "plantilla" (único valor actual; "llm"
+              queda reservado para si se integra construir_prompt a futuro)
     """
     evaluacion = motor_reglas.evaluar_script(
         sentencia_sql, contexto_usuario.get("rol", ""), catalogo_sensibles

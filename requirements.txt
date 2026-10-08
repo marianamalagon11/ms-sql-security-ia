@@ -3,6 +3,4 @@ sqlglot
 scikit-learn
 joblib
 pandas
-anthropic
-python-dotenv
 pytest
