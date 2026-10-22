@@ -1,0 +1,5 @@
+nivel_riesgo,escalamiento,responsable,requiere_validacion_adicional,accion
+bajo,N0 - Sin escalamiento,Ejecutor,no,Puede ejecutarse; queda registrada en la bitácora.
+medio,N1 - Revisión por par,Líder técnico,no,Se recomienda revisión por un par antes de ejecutar en producción.
+alto,N2 - Aprobación del responsable del dato,DBA / dueño del dato,si,Requiere aprobación del responsable del dato antes de ejecutarse.
+critico,N3 - Bloqueo y aprobación de Seguridad,Seguridad de la información,si,Debe bloquearse hasta contar con aprobación formal de Seguridad de la información.

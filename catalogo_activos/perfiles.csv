@@ -1,0 +1,16 @@
+usuario,rol,aplicaciones_habituales,hora_inicio,hora_fin
+jgomez,DBA,SSMS|BatchNocturno,6,21
+pmartinez,DBA,SSMS,7,20
+mrodriguez,RRHH,ERP-Contable|PortalWeb,7,18
+avargas,RRHH,ERP-Contable,8,18
+cfernandez,Analista_Financiero,ERP-Contable|PowerBI,7,19
+nrojas,Analista_Financiero,PowerBI,8,18
+scastro,Analista_Financiero,ERP-Contable|PowerBI,8,18
+lsuarez,Soporte,PortalWeb|SSMS,6,22
+ktorres,Soporte,PortalWeb|AppMovil,7,19
+aortiz,Analista_Seguridad,SSMS|PowerBI,7,20
+dpaez,Desarrollador,SSMS|PortalWeb,8,20
+fhernandez,Desarrollador,SSMS|AppMovil,8,19
+vmorales,Desarrollador,SSMS|PortalWeb,9,20
+svc_batch,Servicio_Batch,BatchNocturno,22,5
+svc_portal,Servicio_App,PortalWeb|AppMovil,0,23

@@ -1,0 +1,12 @@
+tipo,valor,descripcion
+red,10.0.0.0/8,Red interna corporativa
+red,192.168.0.0/16,Red interna de oficinas
+red,172.16.0.0/12,VPN corporativa (trabajo remoto)
+aplicacion,ERP-Contable,ERP contable corporativo
+aplicacion,PortalWeb,Portal web de clientes
+aplicacion,AppMovil,Aplicación móvil de clientes
+aplicacion,SSMS,SQL Server Management Studio
+aplicacion,PowerBI,Tableros de reportes
+aplicacion,BatchNocturno,Procesos batch programados
+servidor,10.0.0.5,Servidor de producción
+servidor,10.0.0.6,Réplica de reportes

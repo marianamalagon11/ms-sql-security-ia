@@ -216,3 +216,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+.streamlit/cache/
+
+# Datos generados dinámicamente en fase reactiva (no versionar)
+fase_reactiva/datos/*
+!fase_reactiva/datos/.gitkeep
