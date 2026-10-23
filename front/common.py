@@ -197,7 +197,6 @@ def encabezado(titulo: str, subtitulo: str) -> None:
 def pie() -> None:
     """Pie institucional, igual en todas las páginas."""
     st.markdown(
-        '<p class="eci-pie">Escuela Colombiana de Ingeniería Julio Garavito · '
-        "Proyecto universitario — prototipo en desarrollo.</p>",
+        '<p class="eci-pie">Escuela Colombiana de Ingeniería Julio Garavito</p>',
         unsafe_allow_html=True,
     )

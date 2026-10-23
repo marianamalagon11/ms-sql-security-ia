@@ -12,7 +12,6 @@ dejar el flujo navegable de punta a punta.
 import sys
 from pathlib import Path
 
-import altair as alt
 import pandas as pd
 import streamlit as st
 
@@ -87,49 +86,6 @@ REPORTE_MOCK = {
         "correspondiente. Se recomienda validar ambos casos con los usuarios involucrados y sus superiores."
     ),
 }
-
-def nivel_por_score(probabilidad: float) -> str:
-    """Traduce la probabilidad de anomalía del modelo a un nivel de riesgo discreto."""
-    if probabilidad >= 0.85:
-        return "critico"
-    if probabilidad >= 0.7:
-        return "alto"
-    if probabilidad >= 0.4:
-        return "medio"
-    return "bajo"
-
-def grafica_scores(df: pd.DataFrame) -> alt.Chart:
-    """Barras horizontales de la probabilidad de anomalía, ordenadas de mayor a menor."""
-    datos = df.copy()
-    datos["etiqueta"] = datos["usuario"] + " · " + datos["tabla_afectada"] + "." + datos["columna_afectada"]
-    datos["score_texto"] = datos["probabilidad_anomalia"].map(lambda v: f"{v:.2f}")
-
-    base = alt.Chart(datos).encode(
-        y=alt.Y("etiqueta:N", sort="-x", title=None,
-                axis=alt.Axis(labelColor=common.TEXTO_SUAVE, labelFontSize=12, domain=False, ticks=False)),
-        x=alt.X("probabilidad_anomalia:Q", title="Probabilidad de anomalía",
-                scale=alt.Scale(domain=[0, 1]),
-                axis=alt.Axis(labelColor=common.TEXTO_SUAVE, titleColor=common.TEXTO_SUAVE,
-                              gridColor="rgba(228,232,238,0.10)", domainColor="rgba(228,232,238,0.20)",
-                              tickColor="rgba(228,232,238,0.20)")),
-        tooltip=[
-            alt.Tooltip("usuario:N", title="Usuario"),
-            alt.Tooltip("rol:N", title="Rol"),
-            alt.Tooltip("tabla_afectada:N", title="Tabla"),
-            alt.Tooltip("columna_afectada:N", title="Columna"),
-            alt.Tooltip("tipo_operacion:N", title="Operación"),
-            alt.Tooltip("probabilidad_anomalia:Q", title="Probabilidad", format=".2f"),
-        ],
-    )
-
-    barras = base.mark_bar(color=common.SERIES[0], height=18, cornerRadiusEnd=4)
-    etiquetas = base.mark_text(
-        align="left", dx=6, color=common.TEXTO, fontSize=12, fontWeight="bold"
-    ).encode(text="score_texto:N")
-
-    return (barras + etiquetas).properties(height=max(90, 46 * len(datos))).configure_view(
-        stroke=None
-    ).configure(background="transparent")
 
 col_upload, col_formato = st.columns([2, 1], gap="large")
 
@@ -227,33 +183,18 @@ if "reactiva_reporte" in st.session_state:
 
     st.markdown("")
 
-    col_grafica, col_niveles = st.columns([3, 1], gap="large")
-
-    with col_grafica:
-        with st.container(border=True):
-            st.markdown("##### Probabilidad de anomalía por transacción")
-            if "probabilidad_anomalia" in df_sospechosas.columns and not df_sospechosas.empty:
-                st.altair_chart(grafica_scores(df_sospechosas), width="stretch")
-            else:
-                st.caption("El modelo no devolvió probabilidades para graficar.")
-
-    with col_niveles:
-        with st.container(border=True):
-            st.markdown("##### Nivel")
-            if "probabilidad_anomalia" in df_sospechosas.columns:
-                for _, fila in df_sospechosas.iterrows():
-                    st.markdown(
-                        common.badge_riesgo(nivel_por_score(fila["probabilidad_anomalia"])),
-                        unsafe_allow_html=True,
-                    )
-                    st.caption(f"{fila['usuario']} · {fila['tabla_afectada']}")
-            else:
-                st.caption("Sin probabilidad disponible.")
-
     with st.container(border=True):
         st.markdown("##### Transacciones sospechosas")
         st.caption(f"{sospechosas} transacción(es) marcada(s) por el modelo de detección.")
         st.dataframe(df_sospechosas, width="stretch", hide_index=True)
+        st.download_button(
+            "Descargar transacciones sospechosas (CSV)",
+            data=df_sospechosas.to_csv(index=False).encode("utf-8-sig"),
+            file_name="transacciones_sospechosas.csv",
+            mime="text/csv",
+            icon=":material/download:",
+            type="primary",
+        )
 
     with st.container(border=True):
         st.markdown("##### Reporte en lenguaje natural")
@@ -261,11 +202,13 @@ if "reactiva_reporte" in st.session_state:
         st.markdown("**Criticidad resumida**")
         st.write(reporte.get("criticidad_resumida", "—"))
 
-        st.markdown("**Anomalías identificadas**")
-        for anomalia in reporte.get("anomalias_identificadas", []):
-            st.markdown(f"- {anomalia}")
-
         st.markdown("**Explicación simplificada**")
         st.write(reporte.get("explicacion_simplificada", "—"))
+
+        anomalias = reporte.get("anomalias_identificadas", [])
+        if anomalias:
+            with st.expander("Ver detalle"):
+                for anomalia in anomalias:
+                    st.markdown(f"- {anomalia}")
 
 common.pie()

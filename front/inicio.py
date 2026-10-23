@@ -27,14 +27,13 @@ st.markdown(
 
 st.divider()
 
-col_a, col_b, col_c = st.columns(3, gap="medium")
+col_a, col_b = st.columns(2, gap="medium")
 col_a.metric("Fases del sistema", "2", help="Proactiva (pre-ejecución) y reactiva (post-ejecución)")
 col_b.metric(
     "Objetos sensibles en catálogo",
     str(len(catalogo_activos.cargar_objetos_sensibles())),
     help="catalogo_activos/objetos_sensibles.csv",
 )
-col_c.metric("Estado", "Prototipo", help="La lógica de análisis está en desarrollo")
 
 st.divider()
 st.subheader("Módulos del sistema")
@@ -80,10 +79,5 @@ with st.container(border=True):
     cols = st.columns(4)
     for col, nivel in zip(cols, ["bajo", "medio", "alto", "critico"]):
         col.markdown(common.badge_riesgo(nivel), unsafe_allow_html=True)
-
-st.caption(
-    "Prototipo en desarrollo. Los resultados mostrados en las páginas de cada fase pueden ser "
-    "datos de ejemplo mientras se completa la integración con el LLM y el modelo de detección."
-)
 
 common.pie()

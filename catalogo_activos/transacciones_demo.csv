@@ -1,0 +1,401 @@
+timestamp,usuario,rol,ip_origen,ip_destino,aplicacion,tabla_afectada,columna_afectada,tipo_operacion,sentencia_sql,filas_afectadas
+2026-06-01T09:06:57,aortiz,Analista_Seguridad,10.0.1.34,10.0.0.5,SSMS,Usuarios,email,SELECT,"SELECT id_usuario, email FROM Usuarios WHERE id_usuario = 4978;",1
+2026-06-01T17:01:19,aortiz,Analista_Seguridad,10.0.2.250,10.0.0.5,SSMS,Usuarios,activo,SELECT,"SELECT id_usuario, activo FROM Usuarios WHERE id_usuario = 65927;",1
+2026-06-01T17:36:08,fhernandez,Desarrollador,10.0.2.5,10.0.0.5,AppMovil,Productos,nombre,SELECT,"SELECT id_producto, nombre FROM Productos WHERE id_producto = 45078;",1
+2026-06-02T00:00:04,avargas,RRHH,192.168.1.51,10.0.0.5,ERP-Contable,Empleados,salario,UPDATE,UPDATE Empleados SET salario = @valor WHERE id_empleado = 69458;,1
+2026-06-02T03:55:37,svc_portal,Servicio_App,192.168.1.111,10.0.0.5,PortalWeb,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto = 91168;",1
+2026-06-02T12:11:24,jgomez,DBA,10.0.1.86,10.0.0.5,BatchNocturno,Clientes,numero_documento,SELECT,"SELECT id_cliente, numero_documento FROM Clientes WHERE id_cliente = 54460;",1
+2026-06-02T15:59:36,ktorres,Soporte,192.168.1.246,10.0.0.5,PortalWeb,Clientes,ciudad,UPDATE,UPDATE Clientes SET ciudad = @valor WHERE id_cliente = 86616;,1
+2026-06-02T19:39:23,dpaez,Desarrollador,103.21.236.90,10.0.0.5,python-pyodbc,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido BETWEEN 89435 AND 94403;",36
+2026-06-02T23:08:11,ktorres,Soporte,10.0.2.204,10.0.0.5,PortalWeb,Usuarios,activo,SELECT,"SELECT id_usuario, activo FROM Usuarios WHERE id_usuario = 88523;",1
+2026-06-02T23:11:42,scastro,Analista_Financiero,10.0.1.236,10.0.0.5,ERP-Contable,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto = 3169;",1
+2026-06-03T09:57:24,cfernandez,Analista_Financiero,10.0.1.133,10.0.0.5,ERP-Contable,Productos,stock,SELECT,"SELECT id_producto, stock FROM Productos WHERE id_producto = 47991;",1
+2026-06-03T10:37:55,vmorales,Desarrollador,10.0.2.191,10.0.0.5,SSMS,Pedidos,fecha_pedido,SELECT,"SELECT id_pedido, fecha_pedido FROM Pedidos WHERE id_pedido = 36328;",1
+2026-06-03T15:16:46,vmorales,Desarrollador,10.0.2.171,10.0.0.5,SSMS,Productos,categoria,SELECT,"SELECT id_producto, categoria FROM Productos WHERE id_producto = 58670;",1
+2026-06-03T17:57:00,mrodriguez,RRHH,192.168.1.32,10.0.0.5,ERP-Contable,Empleados,cargo,UPDATE,UPDATE Empleados SET cargo = @valor WHERE id_empleado = 51191;,1
+2026-06-03T18:06:58,dpaez,Desarrollador,10.0.2.252,10.0.0.5,PortalWeb,Pedidos,total,UPDATE,UPDATE Pedidos SET total = @valor WHERE id_pedido = 4198;,1
+2026-06-03T20:32:27,jgomez,DBA,192.168.1.97,10.0.0.5,BatchNocturno,Transacciones,estado,SELECT,"SELECT id_transaccion, estado FROM Transacciones WHERE id_transaccion BETWEEN 88035 AND 88873;",191
+2026-06-03T23:01:55,svc_batch,Servicio_Batch,10.0.3.14,10.0.0.5,BatchNocturno,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) SELECT monto FROM Transacciones_Staging;,4879
+2026-06-04T03:41:43,aortiz,Analista_Seguridad,10.0.1.150,10.0.0.5,SSMS,Auditoria,log_acceso,SELECT,"SELECT id_log, log_acceso FROM Auditoria WHERE id_log = 83744;",1
+2026-06-04T08:07:05,jgomez,DBA,192.168.1.224,10.0.0.5,BatchNocturno,Empleados,cargo,SELECT,"SELECT id_empleado, cargo FROM Empleados WHERE id_empleado BETWEEN 64486 AND 64835;",273
+2026-06-04T15:22:28,jgomez,DBA,10.0.2.10,10.0.0.5,SSMS,Clientes,fecha_registro,UPDATE,UPDATE Clientes SET fecha_registro = @valor WHERE id_cliente = 70599;,1
+2026-06-04T17:22:13,pmartinez,DBA,192.168.1.151,10.0.0.5,SSMS,Transacciones,monto,SELECT,"SELECT id_transaccion, monto FROM Transacciones WHERE id_transaccion = 3435;",1
+2026-06-04T18:41:06,fhernandez,Desarrollador,192.168.1.181,10.0.0.5,SSMS,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido = 91688;",1
+2026-06-04T18:57:10,avargas,RRHH,10.0.2.90,10.0.0.5,ERP-Contable,Empleados,cuenta_bancaria,UPDATE,UPDATE Empleados SET cuenta_bancaria = @valor WHERE id_empleado = 10647;,1
+2026-06-04T23:52:22,svc_batch,Servicio_Batch,10.0.3.83,10.0.0.5,BatchNocturno,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) SELECT monto FROM Transacciones_Staging;,7025
+2026-06-05T09:57:33,fhernandez,Desarrollador,10.0.2.62,10.0.0.5,SSMS,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido = 32783;",1
+2026-06-05T12:11:30,fhernandez,Desarrollador,10.0.2.201,10.0.0.5,SSMS,Productos,nombre,SELECT,"SELECT id_producto, nombre FROM Productos WHERE id_producto = 69339;",1
+2026-06-05T16:24:53,mrodriguez,RRHH,10.0.2.153,10.0.0.5,ERP-Contable,Empleados,salario,UPDATE,UPDATE Empleados SET salario = @valor WHERE id_empleado = 23734;,1
+2026-06-05T16:36:58,scastro,Analista_Financiero,192.168.1.241,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT estado, SUM(monto) AS total FROM Transacciones WHERE fecha_transaccion >= DATEADD(MONTH, -1, GETDATE()) GROUP BY estado;",11851
+2026-06-06T04:30:56,svc_batch,Servicio_Batch,172.16.10.91,10.0.0.5,BatchNocturno,Transacciones,estado,INSERT,INSERT INTO Transacciones (estado) VALUES (@valor);,1
+2026-06-06T10:30:44,cfernandez,Analista_Financiero,10.0.2.216,10.0.0.5,ERP-Contable,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto = 26175;",1
+2026-06-06T11:19:22,svc_portal,Servicio_App,10.0.1.118,10.0.0.5,PortalWeb,Productos,categoria,SELECT,"SELECT id_producto, categoria FROM Productos WHERE id_producto = 62829;",1
+2026-06-06T16:18:33,scastro,Analista_Financiero,192.168.1.22,10.0.0.6,PowerBI,Pedidos,fecha_pedido,SELECT,"SELECT id_pedido, fecha_pedido FROM Pedidos WHERE id_pedido = 86063;",1
+2026-06-08T03:27:54,svc_portal,Servicio_App,192.168.1.204,10.0.0.5,AppMovil,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto BETWEEN 4455 AND 7818;",131
+2026-06-08T04:31:30,mrodriguez,RRHH,187.45.5.146,10.0.0.5,PortalWeb,Empleados,nombre,SELECT,"SELECT id_empleado, nombre FROM Empleados WHERE id_empleado BETWEEN 85422 AND 85717;",252
+2026-06-08T08:22:16,nrojas,Analista_Financiero,10.0.2.210,10.0.0.6,PowerBI,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido = 60261;",1
+2026-06-08T08:56:37,avargas,RRHH,10.0.2.172,10.0.0.5,desconocida,Empleados,nombre,UPDATE,UPDATE Empleados SET nombre = @valor WHERE id_empleado = 3897;,1
+2026-06-08T10:19:05,nrojas,Analista_Financiero,192.168.1.10,10.0.0.6,Excel-ODBC,Transacciones,estado,SELECT,"SELECT id_transaccion, estado FROM Transacciones WHERE id_transaccion BETWEEN 86320 AND 88277;",99
+2026-06-08T16:11:03,aortiz,Analista_Seguridad,10.0.1.77,10.0.0.6,PowerBI,Usuarios,ultimo_acceso,SELECT,"SELECT id_usuario, ultimo_acceso FROM Usuarios WHERE id_usuario = 6413;",1
+2026-06-08T16:16:10,svc_portal,Servicio_App,10.0.2.120,10.0.0.5,AppMovil,Pedidos,fecha_pedido,SELECT,"SELECT id_pedido, fecha_pedido FROM Pedidos WHERE id_pedido = 95688;",1
+2026-06-08T18:39:35,svc_portal,Servicio_App,192.168.1.68,10.0.0.5,PortalWeb,Usuarios,password_hash,SELECT,"SELECT id_usuario, password_hash FROM Usuarios WHERE id_usuario = 1504;",1
+2026-06-08T18:45:23,aortiz,Analista_Seguridad,10.0.1.208,10.0.0.5,SSMS,Usuarios,activo,SELECT,"SELECT id_usuario, activo FROM Usuarios WHERE id_usuario = 81183;",1
+2026-06-09T14:02:46,scastro,Analista_Financiero,10.0.1.156,10.0.0.5,sqlcmd,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto = 33560;",1
+2026-06-09T14:49:25,mrodriguez,RRHH,172.16.10.10,10.0.0.5,ERP-Contable,Empleados,salario,INSERT,INSERT INTO Empleados (salario) VALUES (@valor);,1
+2026-06-10T16:04:57,scastro,Analista_Financiero,192.168.1.99,10.0.0.6,sqlcmd,Productos,categoria,SELECT,"SELECT id_producto, categoria FROM Productos WHERE id_producto = 46736;",1
+2026-06-10T18:36:20,avargas,RRHH,10.0.2.59,10.0.0.5,ERP-Contable,Empleados,cuenta_bancaria,INSERT,INSERT INTO Empleados (cuenta_bancaria) VALUES (@valor);,1
+2026-06-10T18:38:14,vmorales,Desarrollador,10.0.2.162,10.0.0.5,SSMS,Pedidos,fecha_pedido,UPDATE,UPDATE Pedidos SET fecha_pedido = @valor WHERE id_pedido = 38939;,1
+2026-06-10T18:59:21,ktorres,Soporte,10.0.1.24,10.0.0.5,AppMovil,Clientes,nombre_completo,SELECT,"SELECT id_cliente, nombre_completo FROM Clientes WHERE id_cliente = 54415;",1
+2026-06-11T16:22:08,cfernandez,Analista_Financiero,192.168.1.24,10.0.0.5,ERP-Contable,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido = 54385;",1
+2026-06-11T16:47:04,jgomez,DBA,10.0.2.20,10.0.0.5,SSMS,Auditoria,fecha_evento,INSERT,INSERT INTO Auditoria (fecha_evento) VALUES (@valor);,1
+2026-06-11T18:51:40,jgomez,DBA,10.0.1.195,10.0.0.5,SSMS,Clientes,fecha_registro,UPDATE,UPDATE Clientes SET fecha_registro = @valor WHERE id_cliente BETWEEN 89825 AND 92994;,359
+2026-06-11T23:31:43,svc_portal,Servicio_App,192.168.1.199,10.0.0.5,AppMovil,Usuarios,activo,SELECT,"SELECT id_usuario, activo FROM Usuarios WHERE id_usuario = 60067;",1
+2026-06-12T08:09:34,cfernandez,Analista_Financiero,10.0.1.239,10.0.0.6,PowerBI,Pedidos,fecha_pedido,SELECT,"SELECT id_pedido, fecha_pedido FROM Pedidos WHERE id_pedido = 8857;",1
+2026-06-12T12:17:07,cfernandez,Analista_Financiero,10.0.1.18,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT estado, SUM(monto) AS total FROM Transacciones WHERE fecha_transaccion >= DATEADD(MONTH, -1, GETDATE()) GROUP BY estado;",31626
+2026-06-12T14:08:00,avargas,RRHH,192.168.1.155,10.0.0.5,ERP-Contable,Empleados,nombre,SELECT,"SELECT id_empleado, nombre FROM Empleados WHERE id_empleado = 13416;",1
+2026-06-12T17:36:10,vmorales,Desarrollador,192.168.1.248,10.0.0.5,PortalWeb,Productos,nombre,INSERT,INSERT INTO Productos (nombre) VALUES (@valor);,1
+2026-06-12T18:20:25,pmartinez,DBA,10.0.2.130,10.0.0.5,SSMS,Pedidos,*,DELETE,DELETE FROM Pedidos WHERE fecha_pedido < '2022-01-01' AND estado = 'CANCELADO';,1599
+2026-06-12T18:37:11,scastro,Analista_Financiero,192.168.1.117,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT estado, SUM(monto) AS total FROM Transacciones WHERE fecha_transaccion >= DATEADD(MONTH, -1, GETDATE()) GROUP BY estado;",10204
+2026-06-12T18:46:17,cfernandez,Analista_Financiero,10.0.2.198,10.0.0.6,PowerBI,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido = 28946;",1
+2026-06-13T00:19:31,svc_batch,Servicio_Batch,10.0.2.162,10.0.0.5,BatchNocturno,Auditoria,fecha_evento,INSERT,INSERT INTO Auditoria (fecha_evento) VALUES (@valor);,1
+2026-06-13T08:08:56,scastro,Analista_Financiero,192.168.1.241,10.0.0.5,ERP-Contable,Transacciones,fecha_transaccion,INSERT,INSERT INTO Transacciones (fecha_transaccion) VALUES (@valor);,1
+2026-06-13T09:42:51,jgomez,DBA,10.0.2.51,10.0.0.5,BatchNocturno,Clientes,fecha_registro,UPDATE,UPDATE Clientes SET fecha_registro = @valor WHERE id_cliente = 69439;,1
+2026-06-13T15:46:05,pmartinez,DBA,10.0.2.43,10.0.0.5,SSMS,Empleados,area,INSERT,INSERT INTO Empleados (area) VALUES (@valor);,1
+2026-06-13T19:30:44,jgomez,DBA,192.168.1.213,10.0.0.5,BatchNocturno,Productos,categoria,SELECT,"SELECT id_producto, categoria FROM Productos WHERE id_producto = 70040;",1
+2026-06-15T01:06:19,svc_portal,Servicio_App,192.168.1.244,10.0.0.5,AppMovil,Usuarios,ultimo_acceso,SELECT,"SELECT id_usuario, ultimo_acceso FROM Usuarios WHERE id_usuario = 53926;",1
+2026-06-15T07:22:12,jgomez,DBA,192.168.1.243,10.0.0.5,SSMS,Pedidos,*,DELETE,DELETE FROM Pedidos WHERE fecha_pedido < '2021-01-01' AND estado = 'CANCELADO';,517
+2026-06-15T08:38:01,nrojas,Analista_Financiero,10.0.1.198,10.0.0.6,PowerBI,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido = 28134;",1
+2026-06-15T18:40:31,nrojas,Analista_Financiero,10.0.1.237,10.0.0.6,PowerBI,Pedidos,fecha_pedido,SELECT,"SELECT id_pedido, fecha_pedido FROM Pedidos WHERE id_pedido = 94526;",1
+2026-06-15T18:51:20,cfernandez,Analista_Financiero,10.0.2.87,10.0.0.6,PowerBI,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) VALUES (@valor);,1
+2026-06-15T19:03:46,pmartinez,DBA,10.0.2.129,10.0.0.5,SSMS,Productos,categoria,INSERT,INSERT INTO Productos (categoria) VALUES (@valor);,1
+2026-06-15T20:16:12,pmartinez,DBA,192.168.1.250,10.0.0.5,SSMS,Auditoria,fecha_evento,SELECT,"SELECT id_log, fecha_evento FROM Auditoria WHERE id_log = 95543;",1
+2026-06-16T03:01:40,svc_portal,Servicio_App,10.0.2.249,10.0.0.5,AppMovil,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido = 60491;",1
+2026-06-16T10:45:19,lsuarez,Soporte,10.0.1.87,10.0.0.5,SSMS,Pedidos,fecha_pedido,UPDATE,UPDATE Pedidos SET fecha_pedido = @valor WHERE id_pedido BETWEEN 77380 AND 79671;,297
+2026-06-16T12:11:47,vmorales,Desarrollador,192.168.1.129,10.0.0.5,SSMS,Pedidos,total,UPDATE,UPDATE Pedidos SET total = @valor WHERE id_pedido = 6311;,1
+2026-06-16T13:44:08,vmorales,Desarrollador,172.16.10.45,10.0.0.5,SSMS,Pedidos,id_cliente,UPDATE,UPDATE Pedidos SET id_cliente = @valor WHERE id_pedido = 15518;,1
+2026-06-16T17:35:38,lsuarez,Soporte,10.0.1.110,10.0.0.5,SSMS,Pedidos,total,UPDATE,UPDATE Pedidos SET total = @valor WHERE id_pedido = 96679;,1
+2026-06-16T17:57:43,pmartinez,DBA,10.0.2.5,10.0.0.5,SSMS,Transacciones,fecha_transaccion,UPDATE,UPDATE Transacciones SET fecha_transaccion = @valor WHERE id_transaccion = 68629;,1
+2026-06-16T19:11:15,vmorales,Desarrollador,192.168.1.70,10.0.0.5,SSMS,Productos,stock,UPDATE,UPDATE Productos SET stock = @valor WHERE id_producto = 47906;,1
+2026-06-16T19:18:59,vmorales,Desarrollador,10.0.2.158,10.0.0.5,PortalWeb,Pedidos,estado,UPDATE,UPDATE Pedidos SET estado = @valor WHERE id_pedido = 56123;,1
+2026-06-17T08:12:40,pmartinez,DBA,10.0.2.185,10.0.0.5,SSMS,Pedidos,estado,UPDATE,UPDATE Pedidos SET estado = @valor WHERE id_pedido = 42357;,1
+2026-06-17T10:15:27,pmartinez,DBA,10.0.1.166,10.0.0.5,SSMS,Auditoria,log_acceso,UPDATE,UPDATE Auditoria SET log_acceso = @valor WHERE id_log = 17955;,1
+2026-06-17T12:50:01,pmartinez,DBA,45.227.73.50,10.0.0.5,Excel-ODBC,Empleados,cargo,SELECT,"SELECT id_empleado, cargo FROM Empleados WHERE id_empleado = 13100;",1
+2026-06-17T18:18:06,lsuarez,Soporte,10.0.2.36,10.0.0.5,PortalWeb,Usuarios,email,SELECT,"SELECT id_usuario, email FROM Usuarios WHERE id_usuario = 41343;",1
+2026-06-17T20:29:24,jgomez,DBA,10.0.2.92,10.0.0.5,SSMS,Pedidos,*,DELETE,DELETE FROM Pedidos WHERE fecha_pedido < '2022-01-01' AND estado = 'CANCELADO';,913
+2026-06-18T07:13:30,mrodriguez,RRHH,10.0.2.123,10.0.0.5,ERP-Contable,Empleados,cuenta_bancaria,INSERT,INSERT INTO Empleados (cuenta_bancaria) VALUES (@valor);,1
+2026-06-18T08:28:30,scastro,Analista_Financiero,10.0.2.142,10.0.0.6,PowerBI,Productos,stock,SELECT,"SELECT id_producto, stock FROM Productos WHERE id_producto = 44599;",1
+2026-06-18T09:04:23,lsuarez,Soporte,10.0.1.176,10.0.0.5,SSMS,Clientes,nombre_completo,UPDATE,UPDATE Clientes SET nombre_completo = @valor WHERE id_cliente = 50199;,1
+2026-06-18T12:21:35,fhernandez,Desarrollador,10.0.1.95,10.0.0.5,AppMovil,Pedidos,estado,UPDATE,UPDATE Pedidos SET estado = @valor WHERE id_pedido = 50069;,1
+2026-06-18T14:27:21,mrodriguez,RRHH,192.168.1.250,10.0.0.5,PortalWeb,Empleados,cuenta_bancaria,UPDATE,UPDATE Empleados SET cuenta_bancaria = @valor WHERE id_empleado = 13010;,1
+2026-06-19T01:00:01,svc_batch,Servicio_Batch,192.168.1.226,10.0.0.5,BatchNocturno,Pedidos,id_cliente,UPDATE,UPDATE Pedidos SET id_cliente = @valor WHERE id_pedido = 35781;,1
+2026-06-19T03:43:35,svc_batch,Servicio_Batch,10.0.1.241,10.0.0.5,BatchNocturno,Pedidos,fecha_pedido,UPDATE,UPDATE Pedidos SET fecha_pedido = @valor WHERE id_pedido = 50421;,1
+2026-06-19T08:48:17,svc_portal,Servicio_App,10.0.1.79,10.0.0.5,AppMovil,Usuarios,email,SELECT,"SELECT id_usuario, email FROM Usuarios WHERE id_usuario = 90945;",1
+2026-06-19T12:47:53,vmorales,Desarrollador,10.0.2.132,10.0.0.5,PortalWeb,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido = 63521;",1
+2026-06-19T14:00:28,nrojas,Analista_Financiero,192.168.1.74,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT estado, SUM(monto) AS total FROM Transacciones WHERE fecha_transaccion >= DATEADD(MONTH, -1, GETDATE()) GROUP BY estado;",24429
+2026-06-19T15:44:33,aortiz,Analista_Seguridad,192.168.1.53,10.0.0.5,SSMS,Usuarios,email,SELECT,"SELECT id_usuario, email FROM Usuarios WHERE id_usuario = 56253;",1
+2026-06-19T16:11:28,scastro,Analista_Financiero,10.0.2.243,10.0.0.6,PowerBI,Pedidos,total,SELECT,"SELECT id_pedido, total FROM Pedidos WHERE id_pedido = 27520;",1
+2026-06-19T19:43:08,ktorres,Soporte,10.0.2.23,10.0.0.5,AppMovil,Pedidos,total,SELECT,"SELECT id_pedido, total FROM Pedidos WHERE id_pedido = 16201;",1
+2026-06-19T23:39:20,svc_batch,Servicio_Batch,192.168.1.122,10.0.0.5,BatchNocturno,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) VALUES (@valor);,1
+2026-06-20T00:36:48,lsuarez,Soporte,10.0.1.91,10.0.0.5,PortalWeb,Clientes,fecha_registro,SELECT,"SELECT id_cliente, fecha_registro FROM Clientes WHERE id_cliente BETWEEN 36570 AND 38028;",305
+2026-06-20T07:52:30,ktorres,Soporte,192.168.1.25,10.0.0.5,AppMovil,Clientes,ciudad,UPDATE,UPDATE Clientes SET ciudad = @valor WHERE id_cliente = 15242;,1
+2026-06-20T19:35:11,pmartinez,DBA,10.0.1.224,10.0.0.5,SSMS,Pedidos,fecha_pedido,UPDATE,UPDATE Pedidos SET fecha_pedido = @valor WHERE id_pedido = 97094;,1
+2026-06-21T16:27:35,fhernandez,Desarrollador,192.168.1.135,10.0.0.5,AppMovil,Pedidos,id_cliente,UPDATE,UPDATE Pedidos SET id_cliente = @valor WHERE id_pedido = 38855;,1
+2026-06-22T07:51:18,jgomez,DBA,10.0.1.202,10.0.0.5,BatchNocturno,Usuarios,password_hash,INSERT,INSERT INTO Usuarios (password_hash) VALUES (@valor);,1
+2026-06-22T16:10:34,scastro,Analista_Financiero,192.168.1.71,10.0.0.6,PowerBI,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) VALUES (@valor);,1
+2026-06-22T19:27:20,fhernandez,Desarrollador,192.168.1.168,10.0.0.5,AppMovil,Productos,nombre,INSERT,INSERT INTO Productos (nombre) VALUES (@valor);,1
+2026-06-22T22:20:21,svc_portal,Servicio_App,10.0.2.151,10.0.0.5,PortalWeb,Pedidos,total,UPDATE,UPDATE Pedidos SET total = @valor WHERE id_pedido = 81356;,1
+2026-06-22T23:46:18,ktorres,Soporte,10.0.1.61,10.0.0.5,AppMovil,Empleados,salario,SELECT,"SELECT id_empleado, salario FROM Empleados WHERE id_empleado = 64939;",1
+2026-06-23T00:41:18,svc_batch,Servicio_Batch,10.0.3.73,10.0.0.5,BatchNocturno,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) SELECT monto FROM Transacciones_Staging;,5931
+2026-06-23T04:14:47,svc_batch,Servicio_Batch,192.168.1.224,10.0.0.5,BatchNocturno,Auditoria,fecha_evento,INSERT,INSERT INTO Auditoria (fecha_evento) VALUES (@valor);,1
+2026-06-23T08:47:07,fhernandez,Desarrollador,10.0.1.78,10.0.0.5,SSMS,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido BETWEEN 70286 AND 73203;",228
+2026-06-23T09:15:35,scastro,Analista_Financiero,10.0.2.249,10.0.0.5,ERP-Contable,Pedidos,fecha_pedido,SELECT,"SELECT id_pedido, fecha_pedido FROM Pedidos WHERE id_pedido BETWEEN 68682 AND 70510;",227
+2026-06-23T12:07:29,mrodriguez,RRHH,103.21.129.95,10.0.0.5,SSMS,Usuarios,*,GRANT,GRANT SELECT ON Usuarios TO fhernandez;,0
+2026-06-23T17:01:14,avargas,RRHH,10.0.1.210,10.0.0.5,ERP-Contable,Empleados,salario,UPDATE,UPDATE Empleados SET salario = @valor WHERE id_empleado BETWEEN 19548 AND 24233;,305
+2026-06-23T18:42:09,fhernandez,Desarrollador,10.0.2.112,10.0.0.5,SSMS,Productos,nombre,UPDATE,UPDATE Productos SET nombre = @valor WHERE id_producto = 44617;,1
+2026-06-23T21:52:52,svc_portal,Servicio_App,192.168.1.35,10.0.0.5,AppMovil,Clientes,nombre_completo,SELECT,"SELECT id_cliente, nombre_completo FROM Clientes WHERE id_cliente = 97372;",1
+2026-06-24T11:53:23,dpaez,Desarrollador,10.0.1.112,10.0.0.5,SSMS,Pedidos,fecha_pedido,SELECT,"SELECT id_pedido, fecha_pedido FROM Pedidos WHERE id_pedido = 59690;",1
+2026-06-24T17:05:13,cfernandez,Analista_Financiero,10.0.1.147,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT estado, SUM(monto) AS total FROM Transacciones WHERE fecha_transaccion >= DATEADD(MONTH, -1, GETDATE()) GROUP BY estado;",6655
+2026-06-24T18:23:31,dpaez,Desarrollador,192.168.1.244,10.0.0.5,SSMS,Pedidos,fecha_pedido,UPDATE,UPDATE Pedidos SET fecha_pedido = @valor WHERE id_pedido = 97473;,1
+2026-06-25T05:45:47,svc_portal,Servicio_App,10.0.1.173,10.0.0.5,PortalWeb,Productos,stock,SELECT,"SELECT id_producto, stock FROM Productos WHERE id_producto = 70463;",1
+2026-06-25T10:20:40,ktorres,Soporte,10.0.2.149,10.0.0.5,PortalWeb,Usuarios,email,UPDATE,UPDATE Usuarios SET email = @valor WHERE id_usuario BETWEEN 43244 AND 48171;,346
+2026-06-25T12:51:27,ktorres,Soporte,10.0.1.135,10.0.0.5,AppMovil,Pedidos,total,UPDATE,UPDATE Pedidos SET total = @valor WHERE id_pedido = 71341;,1
+2026-06-25T12:59:55,ktorres,Soporte,10.0.2.227,10.0.0.5,PortalWeb,Transacciones,monto,SELECT,"SELECT id_transaccion, monto FROM Transacciones WHERE id_transaccion = 23018;",1
+2026-06-25T19:33:25,jgomez,DBA,172.16.10.209,10.0.0.5,BatchNocturno,Transacciones,estado,INSERT,INSERT INTO Transacciones (estado) VALUES (@valor);,1
+2026-06-25T22:33:22,svc_batch,Servicio_Batch,192.168.1.67,10.0.0.5,BatchNocturno,Pedidos,id_cliente,UPDATE,UPDATE Pedidos SET id_cliente = @valor WHERE id_pedido = 29651;,1
+2026-06-26T04:51:27,svc_batch,Servicio_Batch,10.0.2.60,10.0.0.5,BatchNocturno,Transacciones,fecha_transaccion,INSERT,INSERT INTO Transacciones (fecha_transaccion) VALUES (@valor);,1
+2026-06-26T07:37:08,aortiz,Analista_Seguridad,10.0.1.149,10.0.0.6,PowerBI,Auditoria,fecha_evento,SELECT,"SELECT id_log, fecha_evento FROM Auditoria WHERE id_log = 76464;",1
+2026-06-26T11:34:18,avargas,RRHH,192.168.1.177,10.0.0.5,ERP-Contable,Empleados,salario,UPDATE,UPDATE Empleados SET salario = @valor WHERE id_empleado = 37415;,1
+2026-06-26T13:42:36,pmartinez,DBA,10.0.2.60,10.0.0.5,SSMS,Empleados,area,INSERT,INSERT INTO Empleados (area) VALUES (@valor);,1
+2026-06-26T15:27:29,lsuarez,Soporte,10.0.1.191,10.0.0.5,PortalWeb,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido = 50300;",1
+2026-06-26T16:52:43,vmorales,Desarrollador,10.0.2.7,10.0.0.5,SSMS,Productos,nombre,UPDATE,UPDATE Productos SET nombre = @valor WHERE id_producto = 75457;,1
+2026-06-26T20:30:39,vmorales,Desarrollador,10.0.2.219,10.0.0.5,PortalWeb,Productos,nombre,SELECT,"SELECT id_producto, nombre FROM Productos WHERE id_producto = 55443;",1
+2026-06-29T05:42:38,svc_portal,Servicio_App,192.168.1.70,10.0.0.5,AppMovil,Clientes,fecha_registro,INSERT,INSERT INTO Clientes (fecha_registro) VALUES (@valor);,1
+2026-06-29T13:03:29,cfernandez,Analista_Financiero,192.168.1.17,10.0.0.5,ERP-Contable,Transacciones,monto,SELECT,"SELECT id_transaccion, monto FROM Transacciones WHERE id_transaccion = 50303;",1
+2026-06-29T14:08:28,jgomez,DBA,10.0.2.41,10.0.0.5,SSMS,Clientes,nombre_completo,INSERT,INSERT INTO Clientes (nombre_completo) VALUES (@valor);,1
+2026-06-29T15:43:35,jgomez,DBA,10.0.2.70,10.0.0.5,BatchNocturno,Transacciones,fecha_transaccion,UPDATE,UPDATE Transacciones SET fecha_transaccion = @valor WHERE id_transaccion = 44498;,1
+2026-06-30T00:23:49,fhernandez,Desarrollador,10.0.1.65,10.0.0.5,SSMS,Productos,categoria,INSERT,INSERT INTO Productos (categoria) VALUES (@valor);,1
+2026-06-30T08:14:37,pmartinez,DBA,10.0.2.195,10.0.0.5,SSMS,Usuarios,ultimo_acceso,UPDATE,UPDATE Usuarios SET ultimo_acceso = @valor WHERE id_usuario = 25100;,1
+2026-06-30T09:50:11,dpaez,Desarrollador,10.0.1.25,10.0.0.5,SSMS,Productos,precio,INSERT,INSERT INTO Productos (precio) VALUES (@valor);,1
+2026-06-30T14:23:44,cfernandez,Analista_Financiero,10.0.1.217,10.0.0.5,ERP-Contable,Pedidos,fecha_pedido,SELECT,"SELECT id_pedido, fecha_pedido FROM Pedidos WHERE id_pedido = 59166;",1
+2026-06-30T14:26:33,nrojas,Analista_Financiero,10.0.1.230,10.0.0.6,PowerBI,Pedidos,fecha_pedido,SELECT,"SELECT id_pedido, fecha_pedido FROM Pedidos WHERE id_pedido BETWEEN 65802 AND 67417;",341
+2026-06-30T15:04:33,vmorales,Desarrollador,192.168.1.68,10.0.0.5,SSMS,Productos,categoria,SELECT,"SELECT id_producto, categoria FROM Productos WHERE id_producto = 80605;",1
+2026-06-30T16:03:39,mrodriguez,RRHH,10.0.2.163,10.0.0.5,ERP-Contable,Empleados,cargo,UPDATE,UPDATE Empleados SET cargo = @valor WHERE id_empleado BETWEEN 59510 AND 64087;,87
+2026-06-30T16:21:44,dpaez,Desarrollador,10.0.2.142,10.0.0.5,PortalWeb,Productos,categoria,INSERT,INSERT INTO Productos (categoria) VALUES (@valor);,1
+2026-06-30T17:25:17,scastro,Analista_Financiero,192.168.1.104,10.0.0.6,PowerBI,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) VALUES (@valor);,1
+2026-07-01T03:43:08,svc_portal,Servicio_App,10.0.1.239,10.0.0.5,AppMovil,Clientes,nombre_completo,INSERT,INSERT INTO Clientes (nombre_completo) VALUES (@valor);,1
+2026-07-01T14:19:12,jgomez,DBA,192.168.1.98,10.0.0.5,BatchNocturno,Transacciones,tarjeta_credito,SELECT,"SELECT id_transaccion, tarjeta_credito FROM Transacciones WHERE id_transaccion = 65141;",1
+2026-07-02T01:23:05,vmorales,Desarrollador,201.14.96.174,10.0.0.5,SSMS,Pedidos,total,SELECT,"SELECT id_pedido, total FROM Pedidos WHERE id_pedido = 83387;",1
+2026-07-02T07:03:26,mrodriguez,RRHH,10.0.2.26,10.0.0.5,PortalWeb,Empleados,cargo,INSERT,INSERT INTO Empleados (cargo) VALUES (@valor);,1
+2026-07-02T09:41:34,fhernandez,Desarrollador,10.0.2.119,10.0.0.5,SSMS,-,-,ALTER,ALTER ROLE db_owner ADD MEMBER svc_portal;,0
+2026-07-02T10:16:45,scastro,Analista_Financiero,10.0.2.245,10.0.0.6,PowerBI,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido = 47862;",1
+2026-07-02T10:57:11,dpaez,Desarrollador,192.168.1.88,10.0.0.5,SSMS,Pedidos,estado,UPDATE,UPDATE Pedidos SET estado = @valor WHERE id_pedido BETWEEN 76077 AND 76285;,359
+2026-07-02T12:49:44,pmartinez,DBA,192.168.1.7,10.0.0.5,SSMS,Transacciones,tarjeta_credito,SELECT,"SELECT id_transaccion, tarjeta_credito FROM Transacciones WHERE id_transaccion = 8042;",1
+2026-07-02T17:08:10,ktorres,Soporte,10.0.1.147,10.0.0.5,AppMovil,Usuarios,email,UPDATE,UPDATE Usuarios SET email = @valor WHERE id_usuario = 18047;,1
+2026-07-02T18:29:21,vmorales,Desarrollador,10.0.2.123,10.0.0.5,SSMS,Pedidos,estado,UPDATE,UPDATE Pedidos SET estado = @valor WHERE id_pedido BETWEEN 70956 AND 75220;,184
+2026-07-02T19:39:26,jgomez,DBA,10.0.1.69,10.0.0.5,SSMS,Pedidos,*,DELETE,DELETE FROM Pedidos WHERE fecha_pedido < '2020-01-01' AND estado = 'CANCELADO';,1560
+2026-07-02T20:47:12,dpaez,Desarrollador,10.0.2.13,10.0.0.5,SSMS,Productos,precio,UPDATE,UPDATE Productos SET precio = @valor WHERE id_producto = 28297;,1
+2026-07-03T04:52:58,nrojas,Analista_Financiero,10.0.1.104,10.0.0.6,PowerBI,Transacciones,estado,INSERT,INSERT INTO Transacciones (estado) VALUES (@valor);,1
+2026-07-03T08:20:48,lsuarez,Soporte,10.0.1.174,10.0.0.5,PortalWeb,Clientes,ciudad,UPDATE,UPDATE Clientes SET ciudad = @valor WHERE id_cliente BETWEEN 2989 AND 5325;,100
+2026-07-03T10:55:57,ktorres,Soporte,10.0.2.189,10.0.0.5,AppMovil,Pedidos,total,UPDATE,UPDATE Pedidos SET total = @valor WHERE id_pedido = 43293;,1
+2026-07-03T15:47:07,avargas,RRHH,192.168.1.65,10.0.0.5,ERP-Contable,Empleados,cuenta_bancaria,UPDATE,UPDATE Empleados SET cuenta_bancaria = @valor WHERE id_empleado = 36226;,1
+2026-07-03T17:21:29,nrojas,Analista_Financiero,10.0.1.218,10.0.0.6,PowerBI,Pedidos,total,SELECT,"SELECT id_pedido, total FROM Pedidos WHERE id_pedido = 58206;",1
+2026-07-03T17:34:40,svc_portal,Servicio_App,192.168.1.69,10.0.0.5,PortalWeb,Usuarios,ultimo_acceso,SELECT,"SELECT id_usuario, ultimo_acceso FROM Usuarios WHERE id_usuario BETWEEN 80294 AND 81085;",293
+2026-07-03T18:12:53,scastro,Analista_Financiero,192.168.1.16,10.0.0.5,ERP-Contable,Transacciones,estado,INSERT,INSERT INTO Transacciones (estado) VALUES (@valor);,1
+2026-07-03T18:21:34,ktorres,Soporte,192.168.1.186,10.0.0.5,AppMovil,Pedidos,fecha_pedido,SELECT,"SELECT id_pedido, fecha_pedido FROM Pedidos WHERE id_pedido = 72760;",1
+2026-07-05T13:08:57,svc_portal,Servicio_App,10.0.2.108,10.0.0.5,AppMovil,Productos,stock,SELECT,"SELECT id_producto, stock FROM Productos WHERE id_producto = 76324;",1
+2026-07-06T00:48:26,svc_batch,Servicio_Batch,201.14.171.55,10.0.0.5,BatchNocturno,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) VALUES (@valor);,1
+2026-07-06T04:13:33,aortiz,Analista_Seguridad,10.0.2.108,10.0.0.6,PowerBI,Auditoria,fecha_evento,SELECT,"SELECT id_log, fecha_evento FROM Auditoria WHERE id_log = 55886;",1
+2026-07-06T12:46:58,dpaez,Desarrollador,10.0.1.245,10.0.0.5,PortalWeb,Productos,stock,SELECT,"SELECT id_producto, stock FROM Productos WHERE id_producto BETWEEN 77669 AND 81940;",371
+2026-07-06T20:12:44,jgomez,DBA,10.0.2.185,10.0.0.5,SSMS,Clientes,fecha_registro,UPDATE,UPDATE Clientes SET fecha_registro = @valor WHERE id_cliente = 44847;,1
+2026-07-07T02:20:59,svc_portal,Servicio_App,10.0.1.226,10.0.0.5,AppMovil,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto = 63931;",1
+2026-07-07T03:21:26,svc_batch,Servicio_Batch,10.0.3.195,10.0.0.5,BatchNocturno,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) SELECT monto FROM Transacciones_Staging;,4469
+2026-07-07T14:22:17,dpaez,Desarrollador,10.0.1.103,10.0.0.5,SSMS,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido = 63672;",1
+2026-07-07T20:57:48,dpaez,Desarrollador,10.0.1.227,10.0.0.5,SSMS,Pedidos,fecha_pedido,UPDATE,UPDATE Pedidos SET fecha_pedido = @valor WHERE id_pedido = 89458;,1
+2026-07-08T10:12:47,fhernandez,Desarrollador,10.0.2.221,10.0.0.5,AppMovil,Pedidos,total,UPDATE,UPDATE Pedidos SET total = @valor WHERE id_pedido BETWEEN 2699 AND 2868;,20
+2026-07-09T09:38:10,nrojas,Analista_Financiero,192.168.1.127,10.0.0.6,PowerBI,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido = 94569;",1
+2026-07-09T10:08:40,svc_portal,Servicio_App,10.0.1.222,10.0.0.5,PortalWeb,Pedidos,total,SELECT,"SELECT id_pedido, total FROM Pedidos WHERE id_pedido BETWEEN 61026 AND 64041;",195
+2026-07-09T15:33:27,ktorres,Soporte,10.0.1.165,10.0.0.5,AppMovil,Usuarios,email,UPDATE,UPDATE Usuarios SET email = @valor WHERE id_usuario = 19209;,1
+2026-07-09T15:37:35,lsuarez,Soporte,10.0.1.240,10.0.0.5,PortalWeb,Empleados,salario,SELECT,"SELECT id_empleado, salario FROM Empleados WHERE id_empleado = 20046;",1
+2026-07-09T19:00:56,vmorales,Desarrollador,10.0.2.68,10.0.0.5,PortalWeb,Productos,nombre,UPDATE,UPDATE Productos SET nombre = @valor WHERE id_producto = 63290;,1
+2026-07-09T19:15:42,cfernandez,Analista_Financiero,10.0.1.142,10.0.0.5,ERP-Contable,Productos,categoria,SELECT,"SELECT id_producto, categoria FROM Productos WHERE id_producto = 68075;",1
+2026-07-10T10:17:41,cfernandez,Analista_Financiero,10.0.2.206,10.0.0.6,PowerBI,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido BETWEEN 84648 AND 85351;",210
+2026-07-10T10:32:48,scastro,Analista_Financiero,10.0.2.26,10.0.0.5,ERP-Contable,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto BETWEEN 67555 AND 70575;",56
+2026-07-10T12:23:20,cfernandez,Analista_Financiero,10.0.2.224,10.0.0.6,PowerBI,Productos,nombre,SELECT,"SELECT id_producto, nombre FROM Productos WHERE id_producto = 32412;",1
+2026-07-10T12:53:50,pmartinez,DBA,10.0.1.62,10.0.0.5,SSMS,Auditoria,fecha_evento,INSERT,INSERT INTO Auditoria (fecha_evento) VALUES (@valor);,1
+2026-07-10T13:15:51,aortiz,Analista_Seguridad,10.0.2.158,10.0.0.6,PowerBI,Usuarios,ultimo_acceso,SELECT,"SELECT id_usuario, ultimo_acceso FROM Usuarios WHERE id_usuario = 12114;",1
+2026-07-10T14:32:41,mrodriguez,RRHH,192.168.1.44,10.0.0.5,PortalWeb,Empleados,cargo,UPDATE,UPDATE Empleados SET cargo = @valor WHERE id_empleado BETWEEN 44305 AND 45667;,34
+2026-07-10T17:46:03,vmorales,Desarrollador,192.168.1.6,10.0.0.5,SSMS,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido = 27242;",1
+2026-07-12T20:53:44,vmorales,Desarrollador,10.0.1.87,10.0.0.5,SSMS,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido = 9168;",1
+2026-07-13T05:01:50,svc_batch,Servicio_Batch,10.0.2.128,10.0.0.5,BatchNocturno,Auditoria,fecha_evento,INSERT,INSERT INTO Auditoria (fecha_evento) VALUES (@valor);,1
+2026-07-13T09:12:37,vmorales,Desarrollador,192.168.1.250,10.0.0.5,SSMS,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido = 15123;",1
+2026-07-13T09:23:33,aortiz,Analista_Seguridad,10.0.1.97,10.0.0.5,SSMS,Auditoria,log_acceso,SELECT,"SELECT id_log, log_acceso FROM Auditoria WHERE id_log = 47726;",1
+2026-07-13T14:21:33,svc_portal,Servicio_App,192.168.1.181,10.0.0.5,AppMovil,Clientes,nombre_completo,SELECT,"SELECT id_cliente, nombre_completo FROM Clientes WHERE id_cliente = 81625;",1
+2026-07-13T15:17:32,scastro,Analista_Financiero,10.0.1.112,10.0.0.6,PowerBI,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido = 43768;",1
+2026-07-13T16:06:18,scastro,Analista_Financiero,10.0.2.14,10.0.0.5,ERP-Contable,Transacciones,estado,SELECT,"SELECT id_transaccion, estado FROM Transacciones WHERE id_transaccion = 54788;",1
+2026-07-13T16:26:52,mrodriguez,RRHH,10.0.2.120,10.0.0.5,ERP-Contable,Empleados,cuenta_bancaria,UPDATE,UPDATE Empleados SET cuenta_bancaria = @valor WHERE id_empleado = 29642;,1
+2026-07-14T10:41:45,pmartinez,DBA,10.0.1.19,10.0.0.5,SSMS,Pedidos,*,DELETE,DELETE FROM Pedidos WHERE fecha_pedido < '2019-01-01' AND estado = 'CANCELADO';,1844
+2026-07-14T12:27:37,scastro,Analista_Financiero,10.0.2.167,10.0.0.6,PowerBI,Pedidos,total,SELECT,"SELECT id_pedido, total FROM Pedidos WHERE id_pedido = 75389;",1
+2026-07-14T15:20:20,scastro,Analista_Financiero,192.168.1.148,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT id_transaccion, monto FROM Transacciones WHERE id_transaccion BETWEEN 74223 AND 75628;",85
+2026-07-14T16:55:09,pmartinez,DBA,10.0.2.74,10.0.0.5,SSMS,Pedidos,*,DELETE,DELETE FROM Pedidos WHERE fecha_pedido < '2022-01-01' AND estado = 'CANCELADO';,1517
+2026-07-14T17:57:01,svc_portal,Servicio_App,10.0.2.206,10.0.0.5,AppMovil,Productos,nombre,SELECT,"SELECT id_producto, nombre FROM Productos WHERE id_producto = 91503;",1
+2026-07-14T21:19:32,jgomez,DBA,45.227.100.16,10.0.0.5,BatchNocturno,Clientes,ciudad,INSERT,INSERT INTO Clientes (ciudad) VALUES (@valor);,1
+2026-07-15T03:58:43,svc_batch,Servicio_Batch,10.0.3.221,10.0.0.5,BatchNocturno,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) SELECT monto FROM Transacciones_Staging;,1597
+2026-07-15T12:58:07,aortiz,Analista_Seguridad,192.168.1.61,10.0.0.5,SSMS,Auditoria,log_acceso,SELECT,"SELECT id_log, log_acceso FROM Auditoria WHERE id_log = 83770;",1
+2026-07-15T14:26:11,dpaez,Desarrollador,10.0.1.253,10.0.0.5,PortalWeb,Pedidos,fecha_pedido,SELECT,"SELECT id_pedido, fecha_pedido FROM Pedidos WHERE id_pedido = 38824;",1
+2026-07-16T05:54:31,svc_batch,Servicio_Batch,10.0.3.186,10.0.0.5,BatchNocturno,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) SELECT monto FROM Transacciones_Staging;,3809
+2026-07-16T08:25:06,aortiz,Analista_Seguridad,10.0.2.13,10.0.0.5,SSMS,Usuarios,email,SELECT,"SELECT id_usuario, email FROM Usuarios WHERE id_usuario = 88333;",1
+2026-07-16T19:50:42,lsuarez,Soporte,10.0.1.249,10.0.0.5,PortalWeb,Pedidos,fecha_pedido,UPDATE,UPDATE Pedidos SET fecha_pedido = @valor WHERE id_pedido = 33165;,1
+2026-07-16T23:51:50,svc_batch,Servicio_Batch,10.0.1.230,10.0.0.5,BatchNocturno,Pedidos,id_cliente,UPDATE,UPDATE Pedidos SET id_cliente = @valor WHERE id_pedido BETWEEN 77070 AND 79701;,117
+2026-07-17T04:03:30,aortiz,Analista_Seguridad,10.0.1.156,10.0.0.5,SSMS,Auditoria,log_acceso,SELECT,"SELECT id_log, log_acceso FROM Auditoria WHERE id_log = 57630;",1
+2026-07-17T09:36:33,mrodriguez,RRHH,10.0.1.194,10.0.0.5,ERP-Contable,Empleados,area,SELECT,"SELECT id_empleado, area FROM Empleados WHERE id_empleado = 12672;",1
+2026-07-17T09:51:52,mrodriguez,RRHH,10.0.2.210,10.0.0.5,ERP-Contable,Empleados,nombre,UPDATE,UPDATE Empleados SET nombre = @valor WHERE id_empleado = 76487;,1
+2026-07-17T11:43:50,dpaez,Desarrollador,192.168.1.42,10.0.0.5,SSMS,Clientes,numero_documento,SELECT,"SELECT id_cliente, numero_documento FROM Clientes WHERE id_cliente = 73889;",1
+2026-07-17T13:05:21,nrojas,Analista_Financiero,192.168.1.39,10.0.0.6,PowerBI,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido = 78131;",1
+2026-07-17T14:54:50,nrojas,Analista_Financiero,172.16.10.227,10.0.0.6,PowerBI,Productos,categoria,SELECT,"SELECT id_producto, categoria FROM Productos WHERE id_producto = 85842;",1
+2026-07-17T14:56:19,aortiz,Analista_Seguridad,192.168.1.233,10.0.0.5,SSMS,Auditoria,log_acceso,SELECT,"SELECT id_log, log_acceso FROM Auditoria WHERE id_log = 33475;",1
+2026-07-18T16:42:24,nrojas,Analista_Financiero,192.168.1.82,10.0.0.6,PowerBI,Productos,categoria,SELECT,"SELECT id_producto, categoria FROM Productos WHERE id_producto = 13495;",1
+2026-07-18T17:42:41,pmartinez,DBA,10.0.1.20,10.0.0.5,SSMS,Empleados,cuenta_bancaria,SELECT,"SELECT id_empleado, cuenta_bancaria FROM Empleados;",90719
+2026-07-20T12:16:20,cfernandez,Analista_Financiero,10.0.2.150,10.0.0.5,ERP-Contable,Transacciones,fecha_transaccion,SELECT,"SELECT id_transaccion, fecha_transaccion FROM Transacciones WHERE id_transaccion BETWEEN 11980 AND 12749;",386
+2026-07-20T13:36:43,jgomez,DBA,10.0.1.116,10.0.0.5,SSMS,Pedidos,*,DELETE,DELETE FROM Pedidos WHERE fecha_pedido < '2020-01-01' AND estado = 'CANCELADO';,1769
+2026-07-20T13:37:54,fhernandez,Desarrollador,10.0.1.191,10.0.0.5,AppMovil,Pedidos,id_cliente,UPDATE,UPDATE Pedidos SET id_cliente = @valor WHERE id_pedido = 37957;,1
+2026-07-20T16:19:11,fhernandez,Desarrollador,10.0.1.219,10.0.0.5,AppMovil,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido BETWEEN 33207 AND 34917;",262
+2026-07-21T11:04:37,mrodriguez,RRHH,192.168.1.216,10.0.0.5,ERP-Contable,Empleados,nombre,INSERT,INSERT INTO Empleados (nombre) VALUES (@valor);,1
+2026-07-21T11:26:28,jgomez,DBA,192.168.1.162,10.0.0.5,BatchNocturno,Clientes,fecha_registro,UPDATE,UPDATE Clientes SET fecha_registro = @valor WHERE id_cliente = 31177;,1
+2026-07-21T16:22:44,scastro,Analista_Financiero,192.168.1.13,10.0.0.5,ERP-Contable,Transacciones,estado,SELECT,"SELECT id_transaccion, estado FROM Transacciones WHERE id_transaccion = 79945;",1
+2026-07-21T23:05:49,svc_batch,Servicio_Batch,10.0.1.152,10.0.0.5,BatchNocturno,Pedidos,estado,UPDATE,UPDATE Pedidos SET estado = @valor WHERE id_pedido = 38610;,1
+2026-07-22T01:16:37,svc_batch,Servicio_Batch,10.0.1.43,10.0.0.5,BatchNocturno,Pedidos,total,UPDATE,UPDATE Pedidos SET total = @valor WHERE id_pedido BETWEEN 40050 AND 42068;,319
+2026-07-22T11:14:49,avargas,RRHH,192.168.1.119,10.0.0.5,ERP-Contable,Empleados,nombre,INSERT,INSERT INTO Empleados (nombre) VALUES (@valor);,1
+2026-07-22T11:38:35,dpaez,Desarrollador,10.0.2.248,10.0.0.5,SSMS,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto BETWEEN 1792 AND 3531;",380
+2026-07-22T16:23:38,pmartinez,DBA,192.168.1.13,10.0.0.5,SSMS,Pedidos,fecha_pedido,INSERT,INSERT INTO Pedidos (fecha_pedido) VALUES (@valor);,1
+2026-07-23T08:00:56,scastro,Analista_Financiero,192.168.1.172,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT id_transaccion, monto FROM Transacciones WHERE id_transaccion = 84490;",1
+2026-07-23T08:07:15,pmartinez,DBA,10.0.2.15,10.0.0.5,SSMS,Pedidos,*,DELETE,DELETE FROM Pedidos WHERE fecha_pedido < '2020-01-01' AND estado = 'CANCELADO';,1056
+2026-07-23T09:36:42,avargas,RRHH,10.0.1.88,10.0.0.5,ERP-Contable,Empleados,cuenta_bancaria,INSERT,INSERT INTO Empleados (cuenta_bancaria) VALUES (@valor);,1
+2026-07-23T09:51:17,cfernandez,Analista_Financiero,10.0.2.94,10.0.0.6,PowerBI,Transacciones,estado,SELECT,"SELECT id_transaccion, estado FROM Transacciones WHERE id_transaccion = 9291;",1
+2026-07-23T17:20:53,dpaez,Desarrollador,10.0.1.183,10.0.0.5,PortalWeb,Pedidos,fecha_pedido,UPDATE,UPDATE Pedidos SET fecha_pedido = @valor WHERE id_pedido = 97723;,1
+2026-07-24T04:08:17,svc_batch,Servicio_Batch,10.0.2.117,10.0.0.5,BatchNocturno,Pedidos,estado,UPDATE,UPDATE Pedidos SET estado = @valor WHERE id_pedido = 91340;,1
+2026-07-24T13:21:23,dpaez,Desarrollador,192.168.1.116,10.0.0.5,PortalWeb,Pedidos,estado,UPDATE,UPDATE Pedidos SET estado = @valor WHERE id_pedido = 10638;,1
+2026-07-24T17:43:09,cfernandez,Analista_Financiero,10.0.1.80,10.0.0.5,ERP-Contable,Productos,stock,SELECT,"SELECT id_producto, stock FROM Productos WHERE id_producto = 72440;",1
+2026-07-24T20:26:34,jgomez,DBA,10.0.2.228,10.0.0.5,BatchNocturno,Auditoria,fecha_evento,UPDATE,UPDATE Auditoria SET fecha_evento = @valor WHERE id_log BETWEEN 71314 AND 75583;,360
+2026-07-25T06:03:57,lsuarez,Soporte,10.0.1.176,10.0.0.5,SSMS,Clientes,ciudad,SELECT,"SELECT id_cliente, ciudad FROM Clientes WHERE id_cliente = 74803;",1
+2026-07-25T19:00:50,vmorales,Desarrollador,10.0.2.14,10.0.0.5,SSMS,Usuarios,password_hash,SELECT,"SELECT id_usuario, password_hash FROM Usuarios;",108614
+2026-07-26T14:01:46,cfernandez,Analista_Financiero,10.0.2.4,10.0.0.5,ERP-Contable,Productos,nombre,SELECT,"SELECT id_producto, nombre FROM Productos WHERE id_producto BETWEEN 46143 AND 49162;",116
+2026-07-27T07:59:50,jgomez,DBA,10.0.2.93,10.0.0.5,SSMS,Pedidos,*,DELETE,DELETE FROM Pedidos WHERE fecha_pedido < '2021-01-01' AND estado = 'CANCELADO';,2838
+2026-07-27T10:53:01,scastro,Analista_Financiero,192.168.1.102,10.0.0.5,ERP-Contable,Transacciones,fecha_transaccion,SELECT,"SELECT id_transaccion, fecha_transaccion FROM Transacciones WHERE id_transaccion = 7374;",1
+2026-07-27T13:32:38,fhernandez,Desarrollador,10.0.1.146,10.0.0.5,SSMS,Pedidos,id_cliente,UPDATE,UPDATE Pedidos SET id_cliente = @valor WHERE id_pedido BETWEEN 47082 AND 48201;,148
+2026-07-27T14:46:46,vmorales,Desarrollador,10.0.1.9,10.0.0.5,SSMS,Productos,categoria,INSERT,INSERT INTO Productos (categoria) VALUES (@valor);,1
+2026-07-27T17:23:30,dpaez,Desarrollador,172.16.10.156,10.0.0.5,PortalWeb,Pedidos,fecha_pedido,UPDATE,UPDATE Pedidos SET fecha_pedido = @valor WHERE id_pedido = 52489;,1
+2026-07-28T00:50:18,svc_batch,Servicio_Batch,10.0.1.30,10.0.0.5,BatchNocturno,Auditoria,fecha_evento,INSERT,INSERT INTO Auditoria (fecha_evento) VALUES (@valor);,1
+2026-07-28T06:00:18,svc_portal,Servicio_App,10.0.2.242,10.0.0.5,PortalWeb,Pedidos,fecha_pedido,SELECT,"SELECT id_pedido, fecha_pedido FROM Pedidos WHERE id_pedido = 37281;",1
+2026-07-28T08:47:21,aortiz,Analista_Seguridad,10.0.2.39,10.0.0.5,SSMS,Auditoria,log_acceso,SELECT,"SELECT id_log, log_acceso FROM Auditoria WHERE id_log = 17090;",1
+2026-07-28T09:06:50,vmorales,Desarrollador,10.0.1.85,10.0.0.5,PortalWeb,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido = 36159;",1
+2026-07-28T16:36:59,jgomez,DBA,192.168.1.9,10.0.0.5,SSMS,Pedidos,*,DELETE,DELETE FROM Pedidos WHERE fecha_pedido < '2022-01-01' AND estado = 'CANCELADO';,861
+2026-07-28T17:32:29,dpaez,Desarrollador,10.0.1.85,10.0.0.5,PortalWeb,Productos,categoria,SELECT,"SELECT id_producto, categoria FROM Productos WHERE id_producto = 90994;",1
+2026-07-28T17:36:24,cfernandez,Analista_Financiero,10.0.1.7,10.0.0.5,ERP-Contable,Productos,nombre,SELECT,"SELECT id_producto, nombre FROM Productos WHERE id_producto = 36912;",1
+2026-07-28T17:59:28,cfernandez,Analista_Financiero,10.0.2.116,10.0.0.5,python-pyodbc,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto = 77893;",1
+2026-07-29T03:39:05,svc_batch,Servicio_Batch,172.16.10.101,10.0.0.5,BatchNocturno,Pedidos,id_cliente,UPDATE,UPDATE Pedidos SET id_cliente = @valor WHERE id_pedido = 57393;,1
+2026-07-29T10:47:12,nrojas,Analista_Financiero,192.168.1.42,10.0.0.5,SSMS,Empleados,*,TRUNCATE,TRUNCATE TABLE Empleados;,263834
+2026-07-29T14:48:07,mrodriguez,RRHH,10.0.2.130,10.0.0.5,ERP-Contable,Empleados,cargo,UPDATE,UPDATE Empleados SET cargo = @valor WHERE id_empleado = 67874;,1
+2026-07-29T19:12:33,svc_portal,Servicio_App,10.0.2.213,10.0.0.5,AppMovil,Clientes,nombre_completo,SELECT,"SELECT id_cliente, nombre_completo FROM Clientes WHERE id_cliente = 79543;",1
+2026-07-29T20:53:21,vmorales,Desarrollador,10.0.2.24,10.0.0.5,SSMS,Pedidos,id_cliente,UPDATE,UPDATE Pedidos SET id_cliente = @valor WHERE id_pedido = 98860;,1
+2026-07-30T10:36:50,aortiz,Analista_Seguridad,192.168.1.148,10.0.0.6,PowerBI,Usuarios,ultimo_acceso,SELECT,"SELECT id_usuario, ultimo_acceso FROM Usuarios WHERE id_usuario BETWEEN 62061 AND 63476;",304
+2026-07-30T11:51:34,mrodriguez,RRHH,192.168.1.30,10.0.0.5,PortalWeb,Empleados,salario,INSERT,INSERT INTO Empleados (salario) VALUES (@valor);,1
+2026-07-30T14:28:48,vmorales,Desarrollador,10.0.1.133,10.0.0.5,PortalWeb,Productos,stock,INSERT,INSERT INTO Productos (stock) VALUES (@valor);,1
+2026-07-30T14:29:38,mrodriguez,RRHH,10.0.2.210,10.0.0.5,PortalWeb,Empleados,cuenta_bancaria,INSERT,INSERT INTO Empleados (cuenta_bancaria) VALUES (@valor);,1
+2026-07-30T18:54:30,avargas,RRHH,192.168.1.184,10.0.0.5,ERP-Contable,Empleados,area,SELECT,"SELECT id_empleado, area FROM Empleados WHERE id_empleado = 51961;",1
+2026-07-31T07:12:55,jgomez,DBA,10.0.2.231,10.0.0.5,BatchNocturno,Empleados,area,UPDATE,UPDATE Empleados SET area = @valor WHERE id_empleado = 62035;,1
+2026-07-31T09:44:22,cfernandez,Analista_Financiero,192.168.1.214,10.0.0.5,ERP-Contable,Productos,stock,SELECT,"SELECT id_producto, stock FROM Productos WHERE id_producto = 67258;",1
+2026-07-31T12:40:09,lsuarez,Soporte,10.0.2.147,10.0.0.5,SSMS,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido = 1310;",1
+2026-07-31T12:46:11,avargas,RRHH,10.0.1.172,10.0.0.5,ERP-Contable,Empleados,area,UPDATE,UPDATE Empleados SET area = @valor WHERE id_empleado BETWEEN 84562 AND 88907;,125
+2026-07-31T18:23:58,mrodriguez,RRHH,10.0.2.26,10.0.0.5,ERP-Contable,Empleados,cuenta_bancaria,SELECT,"SELECT id_empleado, cuenta_bancaria FROM Empleados WHERE id_empleado = 37930;",1
+2026-07-31T19:23:04,lsuarez,Soporte,10.0.2.252,10.0.0.5,PortalWeb,Clientes,fecha_registro,SELECT,"SELECT id_cliente, fecha_registro FROM Clientes WHERE id_cliente = 20930;",1
+2026-08-01T19:08:45,dpaez,Desarrollador,10.0.1.25,10.0.0.5,PortalWeb,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto = 74604;",1
+2026-08-02T17:37:20,vmorales,Desarrollador,10.0.1.61,10.0.0.5,PortalWeb,Pedidos,estado,UPDATE,UPDATE Pedidos SET estado = @valor WHERE id_pedido = 56960;,1
+2026-08-03T09:31:15,ktorres,Soporte,192.168.1.70,10.0.0.5,PortalWeb,Empleados,salario,SELECT,"SELECT id_empleado, salario FROM Empleados WHERE id_empleado = 56808;",1
+2026-08-03T11:25:08,nrojas,Analista_Financiero,192.168.1.8,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT estado, SUM(monto) AS total FROM Transacciones WHERE fecha_transaccion >= DATEADD(MONTH, -1, GETDATE()) GROUP BY estado;",37667
+2026-08-03T16:22:58,mrodriguez,RRHH,10.0.1.55,10.0.0.5,PortalWeb,Empleados,area,UPDATE,UPDATE Empleados SET area = @valor WHERE id_empleado = 29757;,1
+2026-08-03T20:32:18,dpaez,Desarrollador,10.0.2.5,10.0.0.5,SSMS,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido BETWEEN 17749 AND 19921;",235
+2026-08-04T04:06:32,svc_batch,Servicio_Batch,10.0.2.185,10.0.0.5,BatchNocturno,Pedidos,estado,UPDATE,UPDATE Pedidos SET estado = @valor WHERE id_pedido = 2471;,1
+2026-08-04T08:38:01,scastro,Analista_Financiero,192.168.1.236,10.0.0.5,ERP-Contable,Pedidos,total,SELECT,"SELECT id_pedido, total FROM Pedidos WHERE id_pedido = 98818;",1
+2026-08-04T10:51:37,cfernandez,Analista_Financiero,10.0.1.201,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT estado, SUM(monto) AS total FROM Transacciones WHERE fecha_transaccion >= DATEADD(MONTH, -1, GETDATE()) GROUP BY estado;",15670
+2026-08-04T14:17:25,vmorales,Desarrollador,10.0.1.57,10.0.0.5,SSMS,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto = 44255;",1
+2026-08-04T18:28:07,nrojas,Analista_Financiero,10.0.2.110,10.0.0.6,PowerBI,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido = 36843;",1
+2026-08-04T18:45:45,vmorales,Desarrollador,10.0.1.68,10.0.0.5,PortalWeb,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto = 84150;",1
+2026-08-04T20:55:02,jgomez,DBA,10.0.1.25,10.0.0.5,BatchNocturno,Pedidos,id_cliente,UPDATE,UPDATE Pedidos SET id_cliente = @valor WHERE id_pedido = 75151;,1
+2026-08-05T10:53:31,scastro,Analista_Financiero,10.0.1.199,10.0.0.6,PowerBI,Transacciones,fecha_transaccion,SELECT,"SELECT id_transaccion, fecha_transaccion FROM Transacciones WHERE id_transaccion BETWEEN 20116 AND 20950;",194
+2026-08-05T11:28:45,pmartinez,DBA,192.168.1.26,10.0.0.5,SSMS,Pedidos,*,DELETE,DELETE FROM Pedidos WHERE fecha_pedido < '2021-01-01' AND estado = 'CANCELADO';,260
+2026-08-05T22:45:28,lsuarez,Soporte,192.168.1.233,10.0.0.5,SSMS,Pedidos,total,SELECT,"SELECT id_pedido, total FROM Pedidos WHERE id_pedido BETWEEN 37847 AND 38784;",166
+2026-08-06T08:58:20,jgomez,DBA,10.0.2.104,10.0.0.5,SSMS,Usuarios,activo,INSERT,INSERT INTO Usuarios (activo) VALUES (@valor);,1
+2026-08-06T11:00:29,pmartinez,DBA,10.0.2.10,10.0.0.5,SSMS,Empleados,cargo,UPDATE,UPDATE Empleados SET cargo = @valor WHERE id_empleado = 64012;,1
+2026-08-06T11:35:20,ktorres,Soporte,10.0.1.23,10.0.0.5,AppMovil,Usuarios,email,SELECT,"SELECT id_usuario, email FROM Usuarios WHERE id_usuario = 23793;",1
+2026-08-06T15:17:55,vmorales,Desarrollador,10.0.2.16,10.0.0.5,SSMS,Productos,nombre,SELECT,"SELECT id_producto, nombre FROM Productos WHERE id_producto BETWEEN 39663 AND 43837;",139
+2026-08-06T15:52:52,dpaez,Desarrollador,10.0.1.114,10.0.0.5,SSMS,Pedidos,total,UPDATE,UPDATE Pedidos SET total = @valor WHERE id_pedido = 26735;,1
+2026-08-06T16:21:58,cfernandez,Analista_Financiero,10.0.1.25,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT id_transaccion, monto FROM Transacciones WHERE id_transaccion = 9023;",1
+2026-08-07T07:03:15,lsuarez,Soporte,10.0.2.143,10.0.0.5,PortalWeb,Clientes,ciudad,UPDATE,UPDATE Clientes SET ciudad = @valor WHERE id_cliente = 87475;,1
+2026-08-07T10:06:36,fhernandez,Desarrollador,10.0.2.130,10.0.0.5,AppMovil,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido = 91565;",1
+2026-08-07T10:12:23,lsuarez,Soporte,10.0.1.151,10.0.0.5,SSMS,Clientes,ciudad,SELECT,"SELECT id_cliente, ciudad FROM Clientes WHERE id_cliente = 98101;",1
+2026-08-07T11:40:03,mrodriguez,RRHH,10.0.1.79,10.0.0.5,ERP-Contable,Empleados,area,UPDATE,UPDATE Empleados SET area = @valor WHERE id_empleado = 77783;,1
+2026-08-07T12:37:57,vmorales,Desarrollador,192.168.1.96,10.0.0.5,SSMS,Pedidos,fecha_pedido,UPDATE,UPDATE Pedidos SET fecha_pedido = @valor WHERE id_pedido = 57425;,1
+2026-08-07T12:58:05,lsuarez,Soporte,10.0.1.165,10.0.0.5,PortalWeb,Clientes,nombre_completo,UPDATE,UPDATE Clientes SET nombre_completo = @valor WHERE id_cliente = 63862;,1
+2026-08-07T15:03:34,fhernandez,Desarrollador,10.0.2.216,10.0.0.5,AppMovil,Pedidos,total,SELECT,"SELECT id_pedido, total FROM Pedidos WHERE id_pedido = 47874;",1
+2026-08-07T18:42:47,cfernandez,Analista_Financiero,10.0.2.246,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT estado, SUM(monto) AS total FROM Transacciones WHERE fecha_transaccion >= DATEADD(MONTH, -1, GETDATE()) GROUP BY estado;",13441
+2026-08-07T23:10:17,svc_batch,Servicio_Batch,10.0.1.70,10.0.0.5,BatchNocturno,Auditoria,fecha_evento,INSERT,INSERT INTO Auditoria (fecha_evento) VALUES (@valor);,1
+2026-08-10T00:20:25,svc_portal,Servicio_App,10.0.2.45,10.0.0.5,AppMovil,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto = 85537;",1
+2026-08-10T13:30:42,mrodriguez,RRHH,10.0.1.151,10.0.0.5,ERP-Contable,Empleados,cuenta_bancaria,UPDATE,UPDATE Empleados SET cuenta_bancaria = @valor WHERE id_empleado BETWEEN 89196 AND 94035;,60
+2026-08-10T14:54:44,mrodriguez,RRHH,10.0.1.236,10.0.0.5,ERP-Contable,Empleados,cuenta_bancaria,SELECT,"SELECT id_empleado, cuenta_bancaria FROM Empleados WHERE id_empleado = 28233;",1
+2026-08-10T16:03:52,ktorres,Soporte,192.168.1.79,10.0.0.5,Excel-ODBC,Usuarios,email,SELECT,"SELECT id_usuario, email FROM Usuarios WHERE id_usuario BETWEEN 85371 AND 87589;",278
+2026-08-10T18:31:54,cfernandez,Analista_Financiero,192.168.1.158,10.0.0.6,PowerBI,Productos,stock,SELECT,"SELECT id_producto, stock FROM Productos WHERE id_producto = 98596;",1
+2026-08-11T08:53:20,mrodriguez,RRHH,10.0.1.7,10.0.0.5,PortalWeb,Empleados,nombre,SELECT,"SELECT id_empleado, nombre FROM Empleados WHERE id_empleado = 5625;",1
+2026-08-11T08:59:24,dpaez,Desarrollador,10.0.1.44,10.0.0.5,SSMS,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto = 6856;",1
+2026-08-11T10:30:37,aortiz,Analista_Seguridad,10.0.1.233,10.0.0.5,SSMS,Usuarios,activo,SELECT,"SELECT id_usuario, activo FROM Usuarios WHERE id_usuario = 1981;",1
+2026-08-11T10:43:34,mrodriguez,RRHH,10.0.1.197,10.0.0.5,ERP-Contable,Empleados,area,UPDATE,UPDATE Empleados SET area = @valor WHERE id_empleado = 31478;,1
+2026-08-11T12:59:44,pmartinez,DBA,10.0.2.181,10.0.0.5,SSMS,Pedidos,*,DELETE,DELETE FROM Pedidos WHERE fecha_pedido < '2019-01-01' AND estado = 'CANCELADO';,987
+2026-08-11T14:30:34,aortiz,Analista_Seguridad,192.168.1.246,10.0.0.5,SSMS,Usuarios,email,SELECT,"SELECT id_usuario, email FROM Usuarios WHERE id_usuario = 82782;",1
+2026-08-11T18:15:41,dpaez,Desarrollador,10.0.2.3,10.0.0.5,SSMS,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido = 82179;",1
+2026-08-12T06:05:35,svc_portal,Servicio_App,10.0.2.57,10.0.0.5,PortalWeb,Usuarios,activo,SELECT,"SELECT id_usuario, activo FROM Usuarios WHERE id_usuario = 46314;",1
+2026-08-12T12:53:16,scastro,Analista_Financiero,10.0.2.101,10.0.0.5,ERP-Contable,Productos,categoria,SELECT,"SELECT id_producto, categoria FROM Productos WHERE id_producto = 32157;",1
+2026-08-12T15:34:16,scastro,Analista_Financiero,192.168.1.83,10.0.0.5,ERP-Contable,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) VALUES (@valor);,1
+2026-08-12T17:25:41,scastro,Analista_Financiero,192.168.1.96,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT estado, SUM(monto) AS total FROM Transacciones WHERE fecha_transaccion >= DATEADD(MONTH, -1, GETDATE()) GROUP BY estado;",30089
+2026-08-12T18:16:46,fhernandez,Desarrollador,10.0.1.242,10.0.0.5,AppMovil,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido = 11029;",1
+2026-08-12T21:38:55,jgomez,DBA,192.168.1.150,10.0.0.5,BatchNocturno,Clientes,fecha_registro,SELECT,"SELECT id_cliente, fecha_registro FROM Clientes WHERE id_cliente = 41974;",1
+2026-08-13T07:52:53,aortiz,Analista_Seguridad,10.0.2.178,10.0.0.5,SSMS,Auditoria,fecha_evento,SELECT,"SELECT id_log, fecha_evento FROM Auditoria WHERE id_log = 55031;",1
+2026-08-13T14:19:02,dpaez,Desarrollador,10.0.1.230,10.0.0.5,PortalWeb,Productos,categoria,SELECT,"SELECT id_producto, categoria FROM Productos WHERE id_producto = 14109;",1
+2026-08-13T14:39:55,cfernandez,Analista_Financiero,10.0.2.144,10.0.0.5,ERP-Contable,Transacciones,fecha_transaccion,INSERT,INSERT INTO Transacciones (fecha_transaccion) VALUES (@valor);,1
+2026-08-13T18:26:40,cfernandez,Analista_Financiero,192.168.1.219,10.0.0.6,PowerBI,Pedidos,total,SELECT,"SELECT id_pedido, total FROM Pedidos WHERE id_pedido = 81943;",1
+2026-08-13T18:46:56,lsuarez,Soporte,10.0.1.38,10.0.0.5,PortalWeb,Usuarios,activo,UPDATE,UPDATE Usuarios SET activo = @valor WHERE id_usuario = 17813;,1
+2026-08-13T18:57:24,nrojas,Analista_Financiero,10.0.1.49,10.0.0.6,PowerBI,Transacciones,fecha_transaccion,INSERT,INSERT INTO Transacciones (fecha_transaccion) VALUES (@valor);,1
+2026-08-14T02:10:44,svc_portal,Servicio_App,10.0.2.245,10.0.0.5,AppMovil,Usuarios,email,SELECT,"SELECT id_usuario, email FROM Usuarios WHERE id_usuario = 28803;",1
+2026-08-14T06:41:04,jgomez,DBA,192.168.1.166,10.0.0.5,SSMS,Pedidos,*,DELETE,DELETE FROM Pedidos WHERE fecha_pedido < '2021-01-01' AND estado = 'CANCELADO';,1091
+2026-08-14T09:38:27,nrojas,Analista_Financiero,192.168.1.159,10.0.0.6,PowerBI,Productos,nombre,SELECT,"SELECT id_producto, nombre FROM Productos WHERE id_producto BETWEEN 23630 AND 25288;",131
+2026-08-14T10:05:18,nrojas,Analista_Financiero,10.0.2.211,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT estado, SUM(monto) AS total FROM Transacciones WHERE fecha_transaccion >= DATEADD(MONTH, -1, GETDATE()) GROUP BY estado;",10035
+2026-08-14T11:29:04,scastro,Analista_Financiero,103.21.202.213,10.0.0.6,PowerBI,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido = 81757;",1
+2026-08-14T11:35:07,scastro,Analista_Financiero,192.168.1.189,10.0.0.6,PowerBI,Pedidos,estado,SELECT,"SELECT id_pedido, estado FROM Pedidos WHERE id_pedido BETWEEN 76467 AND 78108;",194
+2026-08-14T16:30:28,cfernandez,Analista_Financiero,10.0.1.79,10.0.0.6,PowerBI,Transacciones,estado,SELECT,"SELECT id_transaccion, estado FROM Transacciones WHERE id_transaccion = 84876;",1
+2026-08-14T17:03:39,aortiz,Analista_Seguridad,192.168.1.218,10.0.0.5,SSMS,Auditoria,log_acceso,SELECT,"SELECT id_log, log_acceso FROM Auditoria WHERE id_log BETWEEN 15458 AND 20432;",293
+2026-08-14T18:39:27,nrojas,Analista_Financiero,192.168.1.143,10.0.0.6,PowerBI,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) VALUES (@valor);,1
+2026-08-15T01:41:39,jgomez,DBA,192.168.1.216,10.0.0.5,SSMS,Auditoria,log_acceso,SELECT,"SELECT id_log, log_acceso FROM Auditoria WHERE id_log = 91685;",1
+2026-08-15T17:34:04,lsuarez,Soporte,201.14.4.52,10.0.0.5,SSMS,Empleados,*,DELETE,DELETE FROM Empleados;,91605
+2026-08-17T08:09:25,fhernandez,Desarrollador,10.0.2.51,10.0.0.5,AppMovil,Productos,categoria,UPDATE,UPDATE Productos SET categoria = @valor WHERE id_producto = 75579;,1
+2026-08-17T13:12:19,cfernandez,Analista_Financiero,10.0.2.18,10.0.0.5,ERP-Contable,Pedidos,total,SELECT,"SELECT id_pedido, total FROM Pedidos WHERE id_pedido = 33537;",1
+2026-08-17T18:06:03,fhernandez,Desarrollador,10.0.2.108,10.0.0.5,AppMovil,Pedidos,id_cliente,UPDATE,UPDATE Pedidos SET id_cliente = @valor WHERE id_pedido BETWEEN 56194 AND 57207;,136
+2026-08-17T18:22:55,vmorales,Desarrollador,45.227.10.207,10.0.0.5,PortalWeb,Productos,categoria,UPDATE,UPDATE Productos SET categoria = @valor WHERE id_producto BETWEEN 67519 AND 69656;,152
+2026-08-17T20:14:31,aortiz,Analista_Seguridad,10.0.1.244,10.0.0.5,SSMS,Usuarios,ultimo_acceso,SELECT,"SELECT id_usuario, ultimo_acceso FROM Usuarios WHERE id_usuario = 55215;",1
+2026-08-18T08:10:31,svc_portal,Servicio_App,192.168.1.5,10.0.0.5,PortalWeb,Pedidos,id_cliente,SELECT,"SELECT id_pedido, id_cliente FROM Pedidos WHERE id_pedido BETWEEN 9604 AND 10808;",333
+2026-08-18T09:55:32,avargas,RRHH,192.168.1.220,10.0.0.5,ERP-Contable,Empleados,salario,SELECT,"SELECT id_empleado, salario FROM Empleados WHERE id_empleado BETWEEN 39868 AND 40134;",52
+2026-08-18T12:28:43,cfernandez,Analista_Financiero,10.0.2.212,10.0.0.5,ERP-Contable,Productos,precio,SELECT,"SELECT id_producto, precio FROM Productos WHERE id_producto = 9045;",1
+2026-08-18T15:56:21,ktorres,Soporte,10.0.1.87,10.0.0.5,AppMovil,Usuarios,email,UPDATE,UPDATE Usuarios SET email = @valor WHERE id_usuario = 38727;,1
+2026-08-18T16:13:17,jgomez,DBA,10.0.2.211,10.0.0.5,BatchNocturno,Transacciones,fecha_transaccion,UPDATE,UPDATE Transacciones SET fecha_transaccion = @valor WHERE id_transaccion = 32601;,1
+2026-08-18T19:34:04,svc_portal,Servicio_App,10.0.1.243,10.0.0.5,AppMovil,Productos,nombre,SELECT,"SELECT id_producto, nombre FROM Productos WHERE id_producto = 52938;",1
+2026-08-18T23:21:57,svc_batch,Servicio_Batch,10.0.3.245,10.0.0.5,BatchNocturno,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) SELECT monto FROM Transacciones_Staging;,4357
+2026-08-19T08:01:39,scastro,Analista_Financiero,10.0.1.76,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT estado, SUM(monto) AS total FROM Transacciones WHERE fecha_transaccion >= DATEADD(MONTH, -1, GETDATE()) GROUP BY estado;",25372
+2026-08-19T08:15:51,lsuarez,Soporte,10.0.1.8,10.0.0.5,PortalWeb,Clientes,nombre_completo,SELECT,"SELECT id_cliente, nombre_completo FROM Clientes WHERE id_cliente = 60103;",1
+2026-08-19T09:37:20,dpaez,Desarrollador,10.0.1.187,10.0.0.5,PortalWeb,Productos,stock,SELECT,"SELECT id_producto, stock FROM Productos WHERE id_producto = 57349;",1
+2026-08-19T10:49:48,scastro,Analista_Financiero,10.0.2.249,10.0.0.6,PowerBI,Transacciones,estado,SELECT,"SELECT id_transaccion, estado FROM Transacciones WHERE id_transaccion = 61495;",1
+2026-08-19T16:57:19,fhernandez,Desarrollador,10.0.1.41,10.0.0.5,AppMovil,Productos,stock,SELECT,"SELECT id_producto, stock FROM Productos WHERE id_producto BETWEEN 8684 AND 11037;",385
+2026-08-19T18:11:44,nrojas,Analista_Financiero,10.0.2.244,10.0.0.6,PowerBI,Productos,categoria,SELECT,"SELECT id_producto, categoria FROM Productos WHERE id_producto = 51015;",1
+2026-08-19T18:33:33,nrojas,Analista_Financiero,192.168.1.128,10.0.0.6,PowerBI,Pedidos,total,SELECT,"SELECT id_pedido, total FROM Pedidos WHERE id_pedido = 32119;",1
+2026-08-20T08:52:34,avargas,RRHH,192.168.1.54,10.0.0.5,ERP-Contable,Empleados,cuenta_bancaria,SELECT,"SELECT id_empleado, cuenta_bancaria FROM Empleados WHERE id_empleado = 59179;",1
+2026-08-20T11:51:42,vmorales,Desarrollador,192.168.1.62,10.0.0.5,PortalWeb,Productos,categoria,INSERT,INSERT INTO Productos (categoria) VALUES (@valor);,1
+2026-08-20T12:04:14,pmartinez,DBA,10.0.1.220,10.0.0.5,SSMS,Transacciones,tarjeta_credito,INSERT,INSERT INTO Transacciones (tarjeta_credito) VALUES (@valor);,1
+2026-08-20T13:58:27,jgomez,DBA,10.0.1.10,10.0.0.5,BatchNocturno,Transacciones,estado,SELECT,"SELECT id_transaccion, estado FROM Transacciones WHERE id_transaccion = 63143;",1
+2026-08-21T05:12:15,svc_batch,Servicio_Batch,10.0.3.218,10.0.0.5,BatchNocturno,Transacciones,monto,INSERT,INSERT INTO Transacciones (monto) SELECT monto FROM Transacciones_Staging;,5413
+2026-08-21T07:52:41,cfernandez,Analista_Financiero,192.168.1.118,10.0.0.5,ERP-Contable,Productos,categoria,SELECT,"SELECT id_producto, categoria FROM Productos WHERE id_producto BETWEEN 76610 AND 79918;",198
+2026-08-21T09:30:32,ktorres,Soporte,192.168.1.190,10.0.0.5,AppMovil,Clientes,ciudad,SELECT,"SELECT id_cliente, ciudad FROM Clientes WHERE id_cliente = 13182;",1
+2026-08-21T09:46:04,nrojas,Analista_Financiero,192.168.1.15,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT estado, SUM(monto) AS total FROM Transacciones WHERE fecha_transaccion >= DATEADD(MONTH, -1, GETDATE()) GROUP BY estado;",13458
+2026-08-21T11:15:35,mrodriguez,RRHH,10.0.2.79,10.0.0.5,ERP-Contable,Empleados,salario,INSERT,INSERT INTO Empleados (salario) VALUES (@valor);,1
+2026-08-21T11:17:35,scastro,Analista_Financiero,10.0.2.208,10.0.0.5,ERP-Contable,Pedidos,total,SELECT,"SELECT id_pedido, total FROM Pedidos WHERE id_pedido = 52156;",1
+2026-08-21T19:26:18,lsuarez,Soporte,10.0.1.132,10.0.0.5,SSMS,Usuarios,activo,UPDATE,UPDATE Usuarios SET activo = @valor WHERE id_usuario = 50242;,1
+2026-08-22T03:25:20,svc_batch,Servicio_Batch,10.0.2.200,10.0.0.5,BatchNocturno,Auditoria,fecha_evento,INSERT,INSERT INTO Auditoria (fecha_evento) VALUES (@valor);,1
+2026-08-22T11:36:36,pmartinez,DBA,10.0.2.140,10.0.0.5,SSMS,Empleados,*,GRANT,GRANT SELECT ON Empleados TO jgomez;,0
+2026-08-23T10:40:17,pmartinez,DBA,192.168.1.250,10.0.0.5,SSMS,Usuarios,password_hash,SELECT,"SELECT id_usuario, password_hash FROM Usuarios WHERE id_usuario = 47105;",1
+2026-08-23T15:29:32,vmorales,Desarrollador,201.14.237.24,10.0.0.5,SSMS,Pedidos,*,DELETE,DELETE FROM Pedidos;,400703
+2026-08-24T10:55:17,pmartinez,DBA,192.168.1.107,10.0.0.5,SSMS,Auditoria,log_acceso,SELECT,"SELECT id_log, log_acceso FROM Auditoria WHERE id_log BETWEEN 11114 AND 15958;",360
+2026-08-24T15:41:35,pmartinez,DBA,172.16.10.65,10.0.0.5,SSMS,Transacciones,fecha_transaccion,SELECT,"SELECT id_transaccion, fecha_transaccion FROM Transacciones WHERE id_transaccion BETWEEN 79675 AND 79897;",316
+2026-08-24T17:05:23,jgomez,DBA,10.0.2.182,10.0.0.5,BatchNocturno,Pedidos,id_cliente,UPDATE,UPDATE Pedidos SET id_cliente = @valor WHERE id_pedido = 23109;,1
+2026-08-24T18:42:33,pmartinez,DBA,10.0.2.67,10.0.0.5,SSMS,Transacciones,tarjeta_credito,SELECT,"SELECT id_transaccion, tarjeta_credito FROM Transacciones WHERE id_transaccion = 85607;",1
+2026-08-24T19:06:35,dpaez,Desarrollador,192.168.1.238,10.0.0.5,PortalWeb,Productos,stock,SELECT,"SELECT id_producto, stock FROM Productos WHERE id_producto = 26531;",1
+2026-08-25T08:16:58,avargas,RRHH,192.168.1.204,10.0.0.5,ERP-Contable,Empleados,cuenta_bancaria,INSERT,INSERT INTO Empleados (cuenta_bancaria) VALUES (@valor);,1
+2026-08-25T12:42:34,nrojas,Analista_Financiero,192.168.1.167,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT estado, SUM(monto) AS total FROM Transacciones WHERE fecha_transaccion >= DATEADD(MONTH, -1, GETDATE()) GROUP BY estado;",31351
+2026-08-25T15:05:18,jgomez,DBA,10.0.1.112,10.0.0.5,BatchNocturno,Usuarios,activo,INSERT,INSERT INTO Usuarios (activo) VALUES (@valor);,1
+2026-08-25T20:05:41,lsuarez,Soporte,192.168.1.171,10.0.0.5,SSMS,Pedidos,estado,UPDATE,UPDATE Pedidos SET estado = @valor WHERE id_pedido = 71181;,1
+2026-08-25T23:27:34,svc_batch,Servicio_Batch,192.168.1.207,10.0.0.5,BatchNocturno,Pedidos,id_cliente,UPDATE,UPDATE Pedidos SET id_cliente = @valor WHERE id_pedido = 10799;,1
+2026-08-26T07:02:00,lsuarez,Soporte,10.0.2.233,10.0.0.5,PortalWeb,Clientes,fecha_registro,UPDATE,UPDATE Clientes SET fecha_registro = @valor WHERE id_cliente = 39013;,1
+2026-08-26T09:44:36,mrodriguez,RRHH,10.0.1.164,10.0.0.5,PortalWeb,Empleados,cargo,SELECT,"SELECT id_empleado, cargo FROM Empleados WHERE id_empleado = 24784;",1
+2026-08-26T09:45:20,cfernandez,Analista_Financiero,10.0.2.217,10.0.0.6,PowerBI,Productos,nombre,SELECT,"SELECT id_producto, nombre FROM Productos WHERE id_producto BETWEEN 66388 AND 69189;",369
+2026-08-26T10:58:11,fhernandez,Desarrollador,10.0.2.216,10.0.0.5,AppMovil,Pedidos,total,UPDATE,UPDATE Pedidos SET total = @valor WHERE id_pedido = 81173;,1
+2026-08-26T11:09:02,aortiz,Analista_Seguridad,10.0.2.177,10.0.0.5,SSMS,Usuarios,ultimo_acceso,SELECT,"SELECT id_usuario, ultimo_acceso FROM Usuarios WHERE id_usuario = 45381;",1
+2026-08-26T11:38:04,mrodriguez,RRHH,192.168.1.171,10.0.0.5,ERP-Contable,Empleados,nombre,UPDATE,UPDATE Empleados SET nombre = @valor WHERE id_empleado = 77518;,1
+2026-08-26T14:40:32,cfernandez,Analista_Financiero,10.0.1.221,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT estado, SUM(monto) AS total FROM Transacciones WHERE fecha_transaccion >= DATEADD(MONTH, -1, GETDATE()) GROUP BY estado;",26469
+2026-08-26T18:15:40,mrodriguez,RRHH,10.0.2.153,10.0.0.5,ERP-Contable,Empleados,cuenta_bancaria,SELECT,"SELECT id_empleado, cuenta_bancaria FROM Empleados WHERE id_empleado = 70334;",1
+2026-08-27T08:18:39,nrojas,Analista_Financiero,10.0.2.100,10.0.0.6,PowerBI,Transacciones,monto,SELECT,"SELECT id_transaccion, monto FROM Transacciones WHERE id_transaccion = 65991;",1
+2026-08-27T09:10:33,dpaez,Desarrollador,10.0.1.98,10.0.0.5,SSMS,Productos,stock,SELECT,"SELECT id_producto, stock FROM Productos WHERE id_producto = 39683;",1
+2026-08-27T10:59:36,pmartinez,DBA,10.0.2.68,10.0.0.5,SSMS,Pedidos,fecha_pedido,INSERT,INSERT INTO Pedidos (fecha_pedido) VALUES (@valor);,1
+2026-08-27T13:09:47,scastro,Analista_Financiero,192.168.1.60,10.0.0.6,PowerBI,Productos,nombre,SELECT,"SELECT id_producto, nombre FROM Productos WHERE id_producto = 98799;",1
+2026-08-27T16:55:48,ktorres,Soporte,192.168.1.137,10.0.0.5,PortalWeb,Usuarios,activo,SELECT,"SELECT id_usuario, activo FROM Usuarios WHERE id_usuario = 15851;",1
+2026-08-28T03:47:39,svc_batch,Servicio_Batch,10.0.2.208,10.0.0.5,BatchNocturno,Auditoria,fecha_evento,INSERT,INSERT INTO Auditoria (fecha_evento) VALUES (@valor);,1
+2026-08-28T15:24:32,dpaez,Desarrollador,10.0.2.113,10.0.0.5,PortalWeb,Productos,stock,UPDATE,UPDATE Productos SET stock = @valor WHERE id_producto BETWEEN 41836 AND 44838;,87
+2026-08-28T15:56:45,pmartinez,DBA,192.168.1.48,10.0.0.5,SSMS,Usuarios,ultimo_acceso,INSERT,INSERT INTO Usuarios (ultimo_acceso) VALUES (@valor);,1
+2026-08-28T19:44:33,ktorres,Soporte,10.0.2.20,10.0.0.5,Excel-ODBC,Clientes,fecha_registro,SELECT,"SELECT id_cliente, fecha_registro FROM Clientes WHERE id_cliente BETWEEN 46567 AND 48668;",328
+2026-08-29T02:54:19,dpaez,Desarrollador,192.168.1.48,10.0.0.5,python-pyodbc,Pedidos,fecha_pedido,SELECT,"SELECT id_pedido, fecha_pedido FROM Pedidos WHERE id_pedido = 91511;",1
+2026-08-29T15:29:33,jgomez,DBA,192.168.1.148,10.0.0.5,BatchNocturno,Productos,categoria,UPDATE,UPDATE Productos SET categoria = @valor WHERE id_producto = 30066;,1
+2026-08-29T18:57:06,avargas,RRHH,10.0.1.159,10.0.0.5,ERP-Contable,Empleados,nombre,UPDATE,UPDATE Empleados SET nombre = @valor WHERE id_empleado = 1504;,1
+2026-08-29T20:43:34,jgomez,DBA,10.0.2.124,10.0.0.5,SSMS,Pedidos,total,UPDATE,UPDATE Pedidos SET total = @valor WHERE id_pedido BETWEEN 14111 AND 15845;,149
