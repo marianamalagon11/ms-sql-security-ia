@@ -54,7 +54,7 @@ with col1:
             - Devuelve nivel de riesgo, explicación en lenguaje natural y sugerencia de mitigación.
             """
         )
-        st.page_link("pages/1_Fase_Proactiva.py", label="Ir a Fase Proactiva", icon=":material/arrow_forward:")
+        st.page_link("vistas/1_Fase_Proactiva.py", label="Ir a Fase Proactiva", icon=":material/arrow_forward:")
 
 with col2:
     with st.container(border=True):
@@ -69,7 +69,7 @@ with col2:
             - Genera un reporte de criticidad en lenguaje natural.
             """
         )
-        st.page_link("pages/2_Fase_Reactiva.py", label="Ir a Fase Reactiva", icon=":material/arrow_forward:")
+        st.page_link("vistas/2_Fase_Reactiva.py", label="Ir a Fase Reactiva", icon=":material/arrow_forward:")
 
 st.divider()
 

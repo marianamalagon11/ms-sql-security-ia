@@ -25,6 +25,21 @@ from fase_proactiva import analizador_llm  # noqa: E402
 
 RUTA_EJEMPLOS = common.RAIZ / "fase_proactiva" / "ejemplos_sentencias.sql"
 
+# Nombres legibles para los códigos de hallazgo de motor_reglas.detectar_hallazgos.
+ETIQUETAS_HALLAZGO = {
+    "ROL_NO_AUTORIZADO": "Rol no autorizado",
+    "SIN_WHERE": "Afecta toda la tabla",
+    "EXPOSICION_MASIVA": "Exposición masiva",
+    "SELECT_ASTERISCO": "Usa SELECT *",
+    "COPIA_DATOS": "Copia datos sensibles",
+    "COMANDO_PELIGROSO": "Comando peligroso",
+    "ACCESO_REMOTO": "Acceso remoto",
+    "SQL_DINAMICO": "SQL dinámico",
+    "POSIBLE_INYECCION": "Posible inyección SQL",
+    "OBJETO_SERVIDOR": "Cambia objeto de servidor",
+    "NO_PARSEADO": "No se pudo analizar",
+}
+
 common.encabezado(
     "Fase Proactiva",
     "Analiza un script SQL antes de su ejecución e identifica riesgos de seguridad.",
@@ -101,12 +116,27 @@ if analizar:
                 sentencia_sql, contexto_usuario, catalogo
             )
             st.session_state["proactiva_contexto"] = contexto_usuario
+            st.session_state["proactiva_sql_evaluado"] = sentencia_sql
 
-if "proactiva_resultado" in st.session_state:
+# El resultado solo es válido para la sentencia y el usuario con que se analizó.
+desactualizado = "proactiva_resultado" in st.session_state and (
+    st.session_state.get("proactiva_sql_evaluado") != sentencia_sql
+    or st.session_state["proactiva_contexto"]["usuario"] != perfil["usuario"]
+)
+
+if desactualizado:
+    st.divider()
+    st.info(
+        "Cambiaste la sentencia o el usuario. Presiona **Analizar** para obtener el resultado actualizado.",
+        icon=":material/refresh:",
+    )
+
+if "proactiva_resultado" in st.session_state and not desactualizado:
     resultado = st.session_state["proactiva_resultado"]
     contexto = st.session_state["proactiva_contexto"]
     evaluacion = resultado["evaluacion"]
     escalamiento = resultado["escalamiento"]
+    sentencias = evaluacion["sentencias"]
 
     st.divider()
     st.markdown("### Resultado del análisis")
@@ -119,21 +149,40 @@ if "proactiva_resultado" in st.session_state:
         )
     )
 
+    # El veredicto lleva el color del nivel y ya incluye la acción requerida.
+    st.markdown(
+        common.veredicto(
+            resultado["nivel_riesgo"],
+            escalamiento["escalamiento"],
+            escalamiento["accion"],
+            escalamiento["responsable"],
+        ),
+        unsafe_allow_html=True,
+    )
+
+    hallazgos = [h for s in sentencias for h in s["hallazgos"]]
+    motivos = list(dict.fromkeys(h["descripcion"] for h in hallazgos))
+    acciones = list(dict.fromkeys(h["mitigacion"] for h in hallazgos))
+
+    col_motivos, col_acciones = st.columns(2, gap="medium")
+    with col_motivos:
+        with st.container(border=True):
+            st.markdown("##### Hallazgos")
+            if motivos:
+                st.markdown("\n".join(f"- {m}" for m in motivos))
+            else:
+                st.markdown("No se encontraron señales de riesgo adicionales.")
+    with col_acciones:
+        with st.container(border=True):
+            st.markdown("##### Mitigación recomendada")
+            if acciones:
+                st.markdown("\n".join(f"- {a}" for a in acciones))
+            else:
+                st.markdown(resultado["sugerencia_mitigacion"])
+
     with st.container(border=True):
-        col_badge, col_esc = st.columns([1, 3], vertical_alignment="center")
-        col_badge.markdown(common.badge_riesgo(resultado["nivel_riesgo"]), unsafe_allow_html=True)
-        col_esc.markdown(f"**{escalamiento['escalamiento']}** · responsable: {escalamiento['responsable']}")
-
-        st.markdown("**Explicación**")
+        st.markdown("##### Explicación")
         st.write(resultado["explicacion"])
-
-        st.markdown("**Sugerencia de mitigación**")
-        st.write(resultado["sugerencia_mitigacion"])
-
-        if resultado["requiere_validacion_adicional"]:
-            st.warning(escalamiento["accion"])
-
-    sentencias = evaluacion["sentencias"]
     if sentencias:
         with st.container(border=True):
             st.markdown("##### Detalle por sentencia")
@@ -142,7 +191,7 @@ if "proactiva_resultado" in st.session_state:
                     [
                         {
                             "#": i + 1,
-                            "Nivel": common.RIESGO[s["nivel_riesgo"]]["etiqueta"],
+                            "Nivel": f"{common.RIESGO[s['nivel_riesgo']]['forma']} {common.RIESGO[s['nivel_riesgo']]['etiqueta']}",
                             "Operación": s["tipo_operacion"],
                             "Categoría": s["categoria"],
                             "Tablas": ", ".join(s["tablas"]),
@@ -150,7 +199,10 @@ if "proactiva_resultado" in st.session_state:
                                 f"{o['tabla']}.{o['columna']}" + ("" if o["autorizado"] else " ✖")
                                 for o in s["objetos_sensibles"]
                             ),
-                            "Hallazgos": ", ".join(h["codigo"] for h in s["hallazgos"]),
+                            "Hallazgos": ", ".join(
+                                dict.fromkeys(ETIQUETAS_HALLAZGO.get(h["codigo"], h["codigo"]) for h in s["hallazgos"])
+                            )
+                            or "—",
                             "Impacto": f"{', '.join(s['impacto']['dimensiones']) or '—'} · {s['impacto']['alcance']}",
                         }
                         for i, s in enumerate(sentencias)
