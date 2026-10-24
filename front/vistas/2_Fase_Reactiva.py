@@ -134,11 +134,18 @@ if generar:
                     reporte = explicador_llm.generar_reporte(df_sospechosas)
                     total_analizadas = len(df_transacciones)
                     es_mock = False
-                except KeyError:
-                    df_sospechosas = TRANSACCIONES_MOCK
-                    reporte = REPORTE_MOCK
-                    total_analizadas = TOTAL_MOCK
-                    es_mock = True
+                except KeyError as exc:
+                    # El modelo sí existe: el problema es el archivo. No se muestra el ejemplo
+                    # para no hacer pasar datos inventados por un resultado del CSV.
+                    for clave in [k for k in st.session_state if k.startswith("reactiva_")]:
+                        del st.session_state[clave]
+                    columnas = ", ".join(f"`{c}`" for c in faltantes) if faltantes else f"`{exc.args[0]}`"
+                    st.error(
+                        f"No se pudo evaluar el archivo: le faltan columnas que el modelo necesita ({columnas}). "
+                        "Revisa el formato esperado e inténtalo de nuevo.",
+                        icon=":material/error:",
+                    )
+                    st.stop()
 
         st.session_state["reactiva_sospechosas"] = df_sospechosas
         st.session_state["reactiva_reporte"] = reporte

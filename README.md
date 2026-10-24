@@ -35,7 +35,7 @@ ms-sql-security-ia/
 │   └── datos/              # CSVs generados dinámicamente (no versionados)
 ├── front/                  # Aplicación Streamlit
 │   ├── app.py               # Página principal / menú
-│   └── pages/                # Página Fase Proactiva y página Fase Reactiva
+│   └── vistas/               # Página Fase Proactiva y página Fase Reactiva
 ├── tests/                  # Pruebas (pytest)
 ├── docs/                   # Documentación del proyecto (paper, diagramas, etc.)
 ├── requirements.txt

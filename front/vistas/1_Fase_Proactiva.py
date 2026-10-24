@@ -131,7 +131,9 @@ if "proactiva_resultado" in st.session_state:
         st.write(resultado["sugerencia_mitigacion"])
 
         if resultado["requiere_validacion_adicional"]:
-            st.warning(escalamiento["accion"])
+            # El tono del aviso sigue al nivel: un crítico se bloquea, no es solo una advertencia.
+            aviso = {"critico": st.error, "alto": st.warning}.get(resultado["nivel_riesgo"], st.info)
+            aviso(escalamiento["accion"], icon=":material/block:" if aviso is st.error else None)
 
     sentencias = evaluacion["sentencias"]
     if sentencias:

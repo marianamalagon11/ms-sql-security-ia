@@ -13,8 +13,8 @@ common.configurar_app()
 
 paginas = [
     st.Page("inicio.py", title="Inicio", icon=":material/home:", default=True),
-    st.Page("pages/1_Fase_Proactiva.py", title="Fase Proactiva", icon=":material/shield:"),
-    st.Page("pages/2_Fase_Reactiva.py", title="Fase Reactiva", icon=":material/monitoring:"),
+    st.Page("vistas/1_Fase_Proactiva.py", title="Fase Proactiva", icon=":material/shield:"),
+    st.Page("vistas/2_Fase_Reactiva.py", title="Fase Reactiva", icon=":material/monitoring:"),
 ]
 
 st.navigation(paginas).run()

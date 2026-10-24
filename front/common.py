@@ -164,7 +164,7 @@ def configurar_app() -> None:
         layout="wide",
     )
     if hasattr(st, "logo"):
-        st.logo(LOGO, icon_image=MARCA, size="medium")
+        st.logo(LOGO, icon_image=MARCA, size="large")
     st.markdown(_CSS, unsafe_allow_html=True)
 
 def badge_riesgo(nivel: str) -> str:
@@ -186,13 +186,9 @@ def badge_mock() -> str:
     return '<span class="eci-mock">◇ DATOS DE EJEMPLO</span>'
 
 def encabezado(titulo: str, subtitulo: str) -> None:
-    """Encabezado de página: logo a la izquierda, título y bajada a la derecha."""
-    col_logo, col_texto = st.columns([1, 4], vertical_alignment="center")
-    with col_logo:
-        st.image(LOGO, width="stretch")
-    with col_texto:
-        st.title(titulo)
-        st.markdown(f'<p class="app-subtitle">{subtitulo}</p>', unsafe_allow_html=True)
+    """Encabezado de página: título y bajada. El logo vive solo en la barra lateral."""
+    st.title(titulo)
+    st.markdown(f'<p class="app-subtitle">{subtitulo}</p>', unsafe_allow_html=True)
 
 def pie() -> None:
     """Pie institucional, igual en todas las páginas."""
