@@ -3,6 +3,7 @@ Utilidades compartidas por las páginas Streamlit: configuración de página,
 tokens visuales, CSS y componentes de presentación.
 """
 
+import html
 from pathlib import Path
 
 import streamlit as st
@@ -76,6 +77,47 @@ _CSS = f"""
       color: #C9B458;
       background-color: rgba(250, 178, 25, 0.12);
       border: 1px solid rgba(250, 178, 25, 0.38);
+  }}
+  .eci-veredicto {{
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      margin-bottom: 0.4rem;
+  }}
+  .eci-veredicto .nivel {{
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+  }}
+  .eci-veredicto .escalamiento {{
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: {TEXTO};
+  }}
+  .eci-veredicto .accion {{
+      color: {TEXTO_SUAVE};
+      font-size: 0.84rem;
+  }}
+  .eci-veredicto .responsable {{
+      margin-left: auto;
+      padding-left: 1rem;
+      border-left: 1px solid {HAIRLINE};
+      text-align: right;
+      white-space: nowrap;
+  }}
+  .eci-veredicto .rotulo {{
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: {TEXTO_SUAVE};
+  }}
+  .eci-veredicto .valor {{
+      font-size: 0.88rem;
+      color: {TEXTO};
   }}
   .eci-pie {{
       color: {TEXTO_SUAVE};
@@ -176,6 +218,21 @@ def badge_riesgo(nivel: str) -> str:
         f'border:1px solid {datos["color"]}66;">'
         f'{datos["forma"]} {datos["etiqueta"]}</span>'
     )
+
+def veredicto(nivel: str, escalamiento: str, accion: str, responsable: str) -> str:
+    """HTML del veredicto principal: nivel, escalamiento con su acción y, aparte, el responsable."""
+    datos = RIESGO.get(str(nivel).strip().lower(), RIESGO["medio"])
+    return (
+        f'<div class="eci-veredicto" style="background-color:{datos["color"]}1A;'
+        f'border:1px solid {datos["color"]}55;border-left:4px solid {datos["color"]};">'
+        f'<div class="nivel" style="color:{datos["color"]};">{datos["forma"]} RIESGO {datos["etiqueta"]}</div>'
+        f'<div><div class="escalamiento">{html.escape(escalamiento)}</div>'
+        f'<div class="accion">{html.escape(accion)}</div></div>'
+        f'<div class="responsable"><div class="rotulo">Responsable</div>'
+        f'<div class="valor">{html.escape(responsable)}</div></div>'
+        f"</div>"
+    )
+
 
 def tag(texto: str) -> str:
     """HTML de una etiqueta de sección (ej. el rótulo de fase)."""
