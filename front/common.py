@@ -4,6 +4,7 @@ tokens visuales, CSS y componentes de presentación.
 """
 
 import html
+import re
 from pathlib import Path
 
 import streamlit as st
@@ -119,6 +120,53 @@ _CSS = f"""
       font-size: 0.88rem;
       color: {TEXTO};
   }}
+  .eci-barra {{
+      margin: 0.5rem 0 0.2rem 0;
+  }}
+  .eci-barra .pista {{
+      display: flex;
+      gap: 1px;
+      height: 6px;
+      border-radius: 3px;
+      overflow: hidden;
+  }}
+  .eci-barra .segmento {{
+      min-width: 4px;
+  }}
+  .eci-barra .leyenda {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.15rem 0.9rem;
+      margin-top: 0.4rem;
+      font-size: 0.76rem;
+      color: {TEXTO_SUAVE};
+  }}
+  .eci-barra .leyenda b {{
+      color: {TEXTO};
+  }}
+  .eci-item {{
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 0.6rem 0.85rem;
+      margin-bottom: 0.4rem;
+      border: 1px solid {HAIRLINE};
+      border-left-width: 3px;
+      border-radius: 6px;
+      background-color: rgba(228, 232, 238, 0.02);
+  }}
+  .eci-item .fecha {{
+      min-width: 5.2rem;
+      color: {TEXTO_SUAVE};
+      font-size: 0.8rem;
+      line-height: 1.35;
+      font-variant-numeric: tabular-nums;
+  }}
+  .eci-item .texto {{
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: {TEXTO};
+  }}
   .eci-pie {{
       color: {TEXTO_SUAVE};
       font-size: 0.8rem;
@@ -231,6 +279,45 @@ def veredicto(nivel: str, escalamiento: str, accion: str, responsable: str) -> s
         f'<div class="responsable"><div class="rotulo">Responsable</div>'
         f'<div class="valor">{html.escape(responsable)}</div></div>'
         f"</div>"
+    )
+
+
+def barra_niveles(conteos: dict[str, int]) -> str:
+    """
+    HTML de una barra apilada delgada con cuántas transacciones hay de cada
+    nivel, del más al menos grave. La leyenda repite forma, nombre y cantidad
+    para que no dependa solo del color; los niveles sin transacciones no se listan.
+    """
+    tramos = [
+        (RIESGO[nivel]["color"], RIESGO[nivel]["forma"], RIESGO[nivel]["etiqueta"].capitalize(), conteos.get(nivel, 0))
+        for nivel in ["critico", "alto", "medio", "bajo"]
+    ]
+    segmentos, leyenda = [], []
+    for color, forma, nombre, n in tramos:
+        if not n:
+            continue
+        segmentos.append(
+            f'<div class="segmento" style="flex-grow:{n};background-color:{color};" title="{nombre}: {n}"></div>'
+        )
+        leyenda.append(f'<span><span style="color:{color};">{forma}</span> {nombre}: <b>{n}</b></span>')
+    return (
+        f'<div class="eci-barra"><div class="pista">{"".join(segmentos)}</div>'
+        f'<div class="leyenda">{"".join(leyenda)}</div></div>'
+    )
+
+
+def item_detalle(nivel: str, fecha: str, texto: str) -> str:
+    """
+    HTML de una fila del detalle: fecha y hora a la izquierda, descripción a la
+    derecha y un borde del color del nivel. Respeta las **negritas** del texto.
+    """
+    datos = RIESGO.get(str(nivel).strip().lower(), RIESGO["medio"])
+    dia, _, hora = fecha.partition(" ")
+    cuerpo = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", html.escape(texto))
+    return (
+        f'<div class="eci-item" style="border-left-color:{datos["color"]};">'
+        f'<div class="fecha">{html.escape(dia)}<br>{html.escape(hora)}</div>'
+        f'<div class="texto">{cuerpo}</div></div>'
     )
 
 

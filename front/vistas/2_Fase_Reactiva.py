@@ -55,6 +55,11 @@ TRANSACCIONES_MOCK = pd.DataFrame(
             "tipo_operacion": "SELECT",
             "sentencia_sql": "SELECT salario FROM Empleados;",
             "probabilidad_anomalia": 0.92,
+            "nivel": "critico",
+            "motivo": (
+                "Ocurrió a las 03:12, fuera del horario habitual de esta persona; "
+                "se conectó desde una red ajena a la organización (IP 45.227.10.201)."
+            ),
         },
         {
             "timestamp": "2026-08-20T23:47:10",
@@ -68,23 +73,38 @@ TRANSACCIONES_MOCK = pd.DataFrame(
             "tipo_operacion": "UPDATE",
             "sentencia_sql": "UPDATE Usuarios SET password_hash = ? WHERE id_usuarios = ?;",
             "probabilidad_anomalia": 0.87,
+            "nivel": "critico",
+            "motivo": "Su rol (Desarrollador) no está autorizado para acceder a esa información.",
         },
     ]
 )
 
 TOTAL_MOCK = 180
 
+DETALLE_POR_PAGINA = 10
+
+
+def _ir_a_pagina(pagina: int) -> None:
+    st.session_state["reactiva_pagina_detalle"] = pagina
+
+
 REPORTE_MOCK = {
-    "criticidad_resumida": "Se identificaron 2 transacciones de criticidad alta sobre un total de 180 analizadas (1.1%).",
-    "anomalias_identificadas": [
-        "Acceso fuera de horario laboral (03:12 AM) a la columna salario por un usuario con rol Soporte.",
-        "Actualización de password_hash desde una cuenta de desarrollador fuera del flujo habitual de la aplicación.",
-    ],
-    "explicacion_simplificada": (
-        "Dos usuarios accedieron a información sensible en condiciones inusuales: uno consultó datos de "
-        "salarios en plena madrugada y otro modificó credenciales de usuarios sin pasar por el aplicativo "
-        "correspondiente. Se recomienda validar ambos casos con los usuarios involucrados y sus superiores."
+    "resumen": (
+        "Se marcaron 2 transacciones sospechosas de 2 usuarios distintos. La señal más frecuente es el "
+        "acceso de roles no autorizados (1 caso)."
     ),
+    "patrones": [
+        "Acceso de un rol no autorizado: 1 transacción.",
+        "Conexión desde una red externa: 1 transacción.",
+        "Fuera del horario habitual del usuario: 1 transacción.",
+    ],
+    "usuarios_destacados": [],
+    "anomalias_identificadas": [
+        "**lsuarez** consultó los salarios en la tabla de empleados. Llama la atención porque ocurrió a las 03:12, "
+        "fuera del horario habitual de esta persona y se conectó desde una red ajena a la organización (IP 45.227.10.201).",
+        "**dpaez** modificó las contraseñas en la tabla de usuarios. Llama la atención porque su rol (Desarrollador) "
+        "no está autorizado para acceder a esa información.",
+    ],
 }
 
 col_upload, col_formato = st.columns([2, 1], gap="large")
@@ -130,7 +150,9 @@ if generar:
             else:
                 try:
                     df_evaluado = modelo_deteccion.predecir(modelo, df_transacciones)
-                    df_sospechosas = df_evaluado[df_evaluado["es_anomalo_predicho"]]
+                    df_sospechosas = explicador_llm.detallar_transacciones(
+                        df_evaluado[df_evaluado["es_anomalo_predicho"]]
+                    )
                     reporte = explicador_llm.generar_reporte(df_sospechosas)
                     total_analizadas = len(df_transacciones)
                     es_mock = False
@@ -153,6 +175,8 @@ if generar:
         st.session_state["reactiva_es_mock"] = es_mock
         st.session_state["reactiva_filas_csv"] = len(df_transacciones)
         st.session_state["reactiva_faltantes"] = faltantes
+        st.session_state["reactiva_pagina_detalle"] = 0
+        st.session_state.pop("reactiva_filtro_detalle", None)
 
 if "reactiva_reporte" in st.session_state:
     df_sospechosas = st.session_state["reactiva_sospechosas"]
@@ -188,15 +212,56 @@ if "reactiva_reporte" in st.session_state:
     k2.metric("Sospechosas", sospechosas)
     k3.metric("Tasa de anomalía", f"{porcentaje:.1f}%")
 
+    # Barra delgada bajo las sospechosas: cómo se reparten por nivel de riesgo.
+    k2.markdown(common.barra_niveles(df_sospechosas["nivel"].value_counts().to_dict()), unsafe_allow_html=True)
+
     st.markdown("")
 
     with st.container(border=True):
         st.markdown("##### Transacciones sospechosas")
-        st.caption(f"{sospechosas} transacción(es) marcada(s) por el modelo de detección.")
-        st.dataframe(df_sospechosas, width="stretch", hide_index=True)
+        st.caption(
+            f"{sospechosas} {'transacción marcada' if sospechosas == 1 else 'transacciones marcadas'} "
+            "por el modelo de detección, de la más a la menos grave."
+        )
+        st.dataframe(
+            pd.DataFrame(
+                {
+                    "Nivel": df_sospechosas["nivel"].map(
+                        lambda n: f"{common.RIESGO[n]['forma']} {common.RIESGO[n]['etiqueta']}"
+                    ),
+                    "Fecha": pd.to_datetime(df_sospechosas["timestamp"]).dt.strftime("%d/%m/%Y %H:%M"),
+                    "Usuario": df_sospechosas["usuario"],
+                    "Rol": df_sospechosas["rol"],
+                    "Operación": df_sospechosas["tipo_operacion"],
+                    "Objeto": [
+                        # Sin columna concreta (vacía o "*") se muestra solo la tabla.
+                        f"{tabla}.{columna}" if pd.notna(columna) and columna not in {"", "-", "*"} else tabla
+                        for tabla, columna in zip(df_sospechosas["tabla_afectada"], df_sospechosas["columna_afectada"])
+                    ],
+                    "Motivo": df_sospechosas["motivo"],
+                    "IP de origen": df_sospechosas["ip_origen"],
+                    "Aplicación": df_sospechosas["aplicacion"],
+                    "Confianza del modelo": df_sospechosas["probabilidad_anomalia"] * 100,
+                    "Sentencia SQL": df_sospechosas["sentencia_sql"],
+                }
+            ),
+            width="stretch",
+            hide_index=True,
+            column_config={
+                "Motivo": st.column_config.TextColumn(width="large"),
+                "Confianza del modelo": st.column_config.ProgressColumn(
+                    min_value=0,
+                    max_value=100,
+                    format="%.0f%%",
+                    help="Qué tan seguro está el modelo de que la transacción es anómala. No mide la gravedad: esa la indica el Nivel.",
+                ),
+            },
+        )
         st.download_button(
             "Descargar transacciones sospechosas (CSV)",
-            data=df_sospechosas.to_csv(index=False).encode("utf-8-sig"),
+            data=df_sospechosas.drop(columns=["es_anomalo_predicho"], errors="ignore")
+            .to_csv(index=False)
+            .encode("utf-8-sig"),
             file_name="transacciones_sospechosas.csv",
             mime="text/csv",
             icon=":material/download:",
@@ -206,16 +271,96 @@ if "reactiva_reporte" in st.session_state:
     with st.container(border=True):
         st.markdown("##### Reporte en lenguaje natural")
 
-        st.markdown("**Criticidad resumida**")
-        st.write(reporte.get("criticidad_resumida", "—"))
+        st.markdown("**Resumen ejecutivo**")
+        st.write(reporte.get("resumen", "—"))
 
-        st.markdown("**Explicación simplificada**")
-        st.write(reporte.get("explicacion_simplificada", "—"))
+        def _lista(titulo: str, elementos: list[str]) -> None:
+            if elementos:
+                st.markdown(f"**{titulo}**")
+                st.markdown("\n".join(f"- {e}" for e in elementos))
+
+        col_patrones, col_usuarios = st.columns(2, gap="medium")
+        with col_patrones:
+            _lista("Patrones detectados", reporte.get("patrones", []))
+        with col_usuarios:
+            _lista("Usuarios con más alertas", reporte.get("usuarios_destacados", []))
 
         anomalias = reporte.get("anomalias_identificadas", [])
         if anomalias:
-            with st.expander("Ver detalle"):
-                for anomalia in anomalias:
-                    st.markdown(f"- {anomalia}")
+            # Las frases vienen en el mismo orden que df_sospechosas (de la más a la menos grave),
+            # así que cada una toma su nivel y fecha de la fila correspondiente.
+            detalle = list(
+                zip(
+                    df_sospechosas["nivel"],
+                    pd.to_datetime(df_sospechosas["timestamp"]).dt.strftime("%d/%m/%Y %H:%M"),
+                    anomalias,
+                )
+            )
+            por_nivel = df_sospechosas["nivel"].value_counts()
+
+            etiqueta = (
+                "Ver detalle de la transacción"
+                if len(detalle) == 1
+                else f"Ver detalle de las {len(detalle)} transacciones"
+            )
+            with st.expander(etiqueta):
+                # Acceso rápido: filtra el detalle por nivel; "Todos" muestra el lote completo.
+                opciones = ["todos"] + [n for n in ["critico", "alto", "medio", "bajo"] if n in por_nivel]
+                filtro = st.pills(
+                    "Mostrar",
+                    opciones,
+                    default="todos",
+                    key="reactiva_filtro_detalle",
+                    on_change=_ir_a_pagina,
+                    args=(0,),
+                    format_func=lambda n: (
+                        f"Todos ({len(detalle)})"
+                        if n == "todos"
+                        else f"{common.RIESGO[n]['forma']} {common.RIESGO[n]['etiqueta'].capitalize()} ({por_nivel[n]})"
+                    ),
+                    label_visibility="collapsed",
+                ) or "todos"
+                filtrado = detalle if filtro == "todos" else [d for d in detalle if d[0] == filtro]
+
+                paginas = -(-len(filtrado) // DETALLE_POR_PAGINA)
+                pagina = min(st.session_state.get("reactiva_pagina_detalle", 0), paginas - 1)
+                inicio = pagina * DETALLE_POR_PAGINA
+                visibles = filtrado[inicio : inicio + DETALLE_POR_PAGINA]
+                for nivel in dict.fromkeys(n for n, _, _ in visibles):
+                    n_nivel = int(por_nivel[nivel])
+                    st.markdown(
+                        f"{common.badge_riesgo(nivel)}&nbsp; "
+                        f"{n_nivel} {'transacción' if n_nivel == 1 else 'transacciones'} en total",
+                        unsafe_allow_html=True,
+                    )
+                    st.markdown(
+                        "".join(common.item_detalle(n, fecha, texto) for n, fecha, texto in visibles if n == nivel),
+                        unsafe_allow_html=True,
+                    )
+
+                if paginas > 1:
+                    col_ant, col_pos, col_sig = st.columns([1, 2, 1], vertical_alignment="center")
+                    col_ant.button(
+                        "‹ Anterior",
+                        key="detalle_anterior",
+                        disabled=pagina == 0,
+                        on_click=_ir_a_pagina,
+                        args=(pagina - 1,),
+                        width="stretch",
+                    )
+                    col_pos.markdown(
+                        f'<p style="text-align:center;margin:0;color:{common.TEXTO_SUAVE};">'
+                        f"Página {pagina + 1} de {paginas} · transacciones {inicio + 1}–{inicio + len(visibles)} "
+                        f"de {len(filtrado)}</p>",
+                        unsafe_allow_html=True,
+                    )
+                    col_sig.button(
+                        "Siguiente ›",
+                        key="detalle_siguiente",
+                        disabled=pagina >= paginas - 1,
+                        on_click=_ir_a_pagina,
+                        args=(pagina + 1,),
+                        width="stretch",
+                    )
 
 common.pie()
